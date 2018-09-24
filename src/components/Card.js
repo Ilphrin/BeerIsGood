@@ -73,7 +73,7 @@ Card.defaultProps = {
   },
   onPress: () => {},
   source: {},
-  children: {},
+  children: undefined,
 };
 
 export default Card;
