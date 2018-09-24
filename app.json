@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "sdkVersion": "29.0.0",
+    "name": "BeerIsGood",
+    "icon": "assets/icons/beer128.png",
+    "version": "1.0.0",
+    "slug": "beer-is-good",
+    "android": {
+      "package": "com.ilphrin.beerisgood"
+    },
+    "ios": {
+      "bundleIdentifier": "com.ilphrin.beerisgood"
+    },
+    "splash": {
+      "image": "./assets/img/splash.png",
+      "backgroundColor": "#F9C546"
+    }
+  },
+  "displayName": "Beer Is Good"
+}
