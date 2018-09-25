@@ -16,7 +16,7 @@ function BeerDetail({ navigation }) {
   const { params } = navigation.state;
   const { id, type } = params.beer;
   const name = `${params.beer.name} - ${params.beer.brewery}`;
-  const { updateList } = params.updateList;
+  const { updateList } = params;
   const source = params.beer.pic !== '' ? { uri: params.beer.pic } : defaultAsset;
   return (
     <Card
