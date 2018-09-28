@@ -34,8 +34,9 @@
     "react-native-material-cards": "^1.0.9",
     "react-native-scripts": "^1.14.0",
     "react-native-sqlite-storage": "^3.3.6",
-    "react-navigation": "^2.9.3",
+    "react-navigation": "^2.17.0",
     "react-redux": "^5.0.7",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "tcomb-form-native": "^0.6.17"
   }
 }
