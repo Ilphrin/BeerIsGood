@@ -9,19 +9,16 @@ export default class CameraContainer extends Component {
     super(props);
 
     this.state = {
-      hasCameraPermissions: false
+      hasCameraPermissions: this.requestCameraPermission(),
+      pictureLoading: false,
     }
     this.camera = null;
     this.photoFolder = `${FileSystem.documentDirectory}photos/`;
-
-    this.requestCameraPermission();
   }
 
   async requestCameraPermission() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({
-      hasCameraPermissions: status === 'granted'
-    });
+    return status === 'granted';
   }
 
   onCameraReady = () => {
@@ -29,7 +26,10 @@ export default class CameraContainer extends Component {
 
   takePhoto = async () => {
     if (this.camera) {
-      await  this.camera.takePictureAsync({
+      this.setState({
+        pictureLoading: true,
+      });
+      await this.camera.takePictureAsync({
         quality: 0.0,
       }).then(photo => {
         this.onPictureSaved(photo);
@@ -62,6 +62,7 @@ export default class CameraContainer extends Component {
           onCameraReady={this.onCameraReady}
           takePhoto={this.takePhoto}
           getRef={(ref) => { this.camera = ref; }}
+          pictureLoading={this.state.pictureLoading}
         />
       )
     }

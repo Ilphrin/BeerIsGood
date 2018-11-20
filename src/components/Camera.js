@@ -1,12 +1,12 @@
 import React from 'react';
-import { Modal } from 'react-native';
+import { Modal, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 import Button from './Button';
 
 const { Camera } = Expo; // eslint-disable-line no-undef
 
 const BCamera = ({
-  onRequestClose, style, onCameraReady, takePhoto, getRef,
+  onRequestClose, style, onCameraReady, takePhoto, getRef, pictureLoading,
 }) => (
   <Modal
     animationType="fade"
@@ -20,19 +20,33 @@ const BCamera = ({
       ratio="16:9"
       ref={getRef}
     />
-    <Button
-      onPress={takePhoto}
-      text="Take!"
-      style={{
-        position: 'absolute',
-        flexDirection: 'row',
-        alignContent: 'stretch',
-        justifyContent: 'center',
-        bottom: 10,
-        left: 10,
-        right: 10,
-      }}
-    />
+    {pictureLoading ? (
+      <ActivityIndicator
+        size="large"
+        color="#F9C546"
+        style={{
+          position: 'absolute',
+          justifyContent: 'center',
+          bottom: 10,
+          left: 10,
+          right: 10,
+        }}
+      />
+    ) : (
+      <Button
+        onPress={takePhoto}
+        text="Take!"
+        style={{
+          position: 'absolute',
+          flexDirection: 'row',
+          alignContent: 'stretch',
+          justifyContent: 'center',
+          bottom: 10,
+          left: 10,
+          right: 10,
+        }}
+      />
+    )}
   </Modal>
 );
 
