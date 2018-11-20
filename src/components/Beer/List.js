@@ -13,7 +13,11 @@ export default class BeerList extends Component {
     this.state = {
       beers: []
     };
-    this.updateList();
+    sql.get_all(sql.db, (transaction, result) => {
+      this.setState({
+        beers: result.rows._array
+      });
+    });
   }
 
   static navigationOptions = {
@@ -25,10 +29,10 @@ export default class BeerList extends Component {
       this.setState({
         beers: result.rows._array
       });
-    });
+    })
   }
 
-  passData = (elem) => {
+  goToDetail = (elem) => {
     this.props.navigation.navigate('BeerDetail', {
       beer: elem,
       updateList: this.updateList,
@@ -38,18 +42,18 @@ export default class BeerList extends Component {
   render() {
     const beers = this.state.beers.map((elem, index) => {
       const title=`${elem.name} - ${elem.brewery}`
-      const source = elem.pic !== '' ? { uri: elem.pic } : require('../../../assets/icons/beer.png');
+      const source = elem.pic !== '' && elem.pic ? { uri: elem.pic } : require('../../../assets/icons/beer.png');
       return (
-          <View key={elem.id}
-            style={styles.card}>
-              <Card
-                source={source}
-                title={title}
-                type={elem.type}
-                onPress={this.passData.bind(this, elem)}
-              />
-          </View>
-      );
+        <View key={elem.id}
+          style={styles.card}>
+          <Card
+            source={source}
+            title={title}
+            type={elem.type}
+            onPress={this.goToDetail.bind(this, elem)}
+          />
+        </View>
+        );
     });
 
     return (

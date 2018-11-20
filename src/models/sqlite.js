@@ -16,7 +16,7 @@ function request(db, callback, success = () => {}, error = () => {}) {
 }
 
 function init() {
-  request(db, tx => {
+  request(db, (tx) => {
     for (req of requests) {
       tx.executeSql(req, []);
     }
@@ -24,31 +24,42 @@ function init() {
 }
 
 function get_all(db, success = defaultSuccessCallback, error = defaultErrCallback) {
-  request(db, (tx) => {
-    return tx.executeSql('SELECT * FROM beers;', [], success, error)
-  });
+  request(db, tx => (
+    tx.executeSql('SELECT * FROM beers;', [], success, error)
+  ));
 }
 
 function new_beer(db, beer, success = defaultSuccessCallback, error = defaultErrCallback) {
-  request(db, (tx) => {
-    return tx.executeSql(
+  request(db, tx => (
+    tx.executeSql(
       'insert into beers (name, type, brewery, pic) values (?, ?, ?, ?);',
-      [beer.name, beer.type, beer.brewery, beer.photo],
+      [beer.name, beer.type, beer.brewery, beer.pic],
       success,
-      error
-    );
-  });
+      error,
+    )
+  ));
 }
 
 function rm_beer(db, beerId, success = defaultSuccessCallback, error = defaultErrCallback) {
-  request(db, (tx) => {
-    return tx.executeSql(
+  request(db, tx => (
+    tx.executeSql(
       'DELETE FROM beers WHERE id = ?',
       [beerId],
       success,
-      error
-    );
-  });
+      error,
+    )
+  ));
+}
+
+function update_beer(db, beer, success = defaultSuccessCallback, error = defaultErrCallback) {
+  request(db, tx => (
+    tx.executeSql(
+      'UPDATE beers SET name=?, type=?, brewery=?, pic=? WHERE id=?',
+      [beer.name, beer.type, beer.brewery, beer.photo, beer.id],
+      success,
+      error,
+    )
+  ));
 }
 
 init();
@@ -57,7 +68,8 @@ const sql = {
   db,
   get_all,
   new_beer,
-  rm_beer
+  rm_beer,
+  update_beer,
 };
 
 export default sql;

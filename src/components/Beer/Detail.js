@@ -5,17 +5,38 @@ import sql from '../../models/sqlite';
 import Card from '../Card';
 import Button from '../Button';
 import container from '../../StyleSheet/container';
+import { Text, Image, View, TouchableOpacity } from 'react-native';
 
 const defaultAsset = require('../../../assets/icons/beer128.png');
 const editIcon = require('../../../assets/icons/edit.png');
 
-const styles = StyleSheet.create({
-  container,
-});
+const DetailTitle = (props) => {
+  return (
+    <View style={styles.headerTitle}>
+      <Text>
+        {props.name}
+      </Text>
+      <TouchableOpacity
+        onPress={() => {
+          props.navigation.navigate('NewBeer', {
+            beer: props.beer,
+            updateList: props.updateList,
+          });
+        }}
+      >
+        <Image
+          source={editIcon}
+          style={styles.editIcon}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+}
 
 class BeerDetail extends React.Component {
   constructor({ navigation }) {
     super();
+
     const { params } = navigation.state;
     this.navigation = navigation;
     this.id = params.beer.id;
@@ -27,7 +48,12 @@ class BeerDetail extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
-      title: `${navigation.state.params.beer.name}`,
+      headerTitle: <DetailTitle
+        name={navigation.state.params.beer.name}
+        navigation={navigation}
+        beer={navigation.state.params.beer}
+        updateList={navigation.state.params.updateList}
+      />,
     };
   };
 
@@ -65,5 +91,20 @@ BeerDetail.propTypes = {
     goBack: PropTypes.func.isRequired,
   }).isRequired,
 };
+
+const styles = StyleSheet.create({
+  container,
+  editIcon: {
+    width: 32,
+    height: 32,
+  },
+  headerTitle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1,
+    marginRight: 15
+  }
+});
 
 export default BeerDetail;

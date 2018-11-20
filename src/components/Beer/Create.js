@@ -13,25 +13,45 @@ export default class BeerCreate extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      name: '',
-      brewery: '',
-      type: '',
-      photo: '',
-      hasCameraPermissions: null,
-      isUsingCamera: false
-    };
     this.updateList = this.props.navigation.getParam('updateList');
+    const beer = props.navigation.getParam('beer');
+
+    if (beer !== undefined) {
+      this.state = {
+        hasCameraPermissions: null,
+        isUsingCamera: false,
+        ...beer,
+      };
+      this.isNewBeer = false;
+    }
+    else {
+      this.state = {
+        name: '',
+        brewery: '',
+        type: '',
+        pic: '',
+        hasCameraPermissions: null,
+        isUsingCamera: false
+      };
+      this.isNewBeer = true;
+    }
   }
 
   componentDidMount() {
-    FileSystem.makeDirectoryAsync(this.photoFolder, { intermediates: true }).catch(e => {
+    FileSystem.makeDirectoryAsync(this.picFolder, { intermediates: true }).catch(e => {
       console.log('Directory already exists');
     });
   }
 
-  static navigationOptions = {
-    title: 'New Beer'
+  static navigationOptions = ({ navigation }) => {
+    if (navigation.state.params.beer !== undefined) {
+      return {
+        title: 'Edit Beer',
+      };
+    }
+    return {
+      title: 'New Beer',
+    };
   }
 
   onChangeName = (name) => {
@@ -52,19 +72,21 @@ export default class BeerCreate extends Component {
     });
   }
 
-  onNewBeer = (event) => {
+  onPutBeer = (event) => {
     const newBeer = this.state;
-    sql.new_beer(sql.db, newBeer, (transaction, result) => {
-      sql.get_all(sql.db, (transaction, all_result) => {
-        this.updateList(all_result.rows._array);
-        this.props.navigation.goBack();
-      });
+    let sqlite_function = sql.new_beer;
+    if (!this.isNewBeer) {
+      sqlite_function = sql.update_beer;
+    }
+    sqlite_function(sql.db, newBeer, (transaction, result) => {
+      this.updateList();
+      this.props.navigation.navigate('Home');
     });
   }
 
   onPictureTaken = (uri) => {
     this.setState({
-      photo: uri,
+      pic: uri,
       isUsingCamera: false
     })
   }
@@ -85,11 +107,11 @@ export default class BeerCreate extends Component {
   }
 
   renderPhoto() {
-    if (this.state.photo === '') {
+    if (this.state.pic === '') {
       return (
         <Button
           onPress={this.isUsingCamera}
-          style={styles.photoButton}
+          style={styles.picButton}
           text="Take a Photo!" />
       );
     }
@@ -97,7 +119,7 @@ export default class BeerCreate extends Component {
       return (
         <Image
           style={styles.beerImage}
-          source={{uri: this.state.photo}}/>
+          source={{uri: this.state.pic}}/>
       );
     }
   }
@@ -134,7 +156,7 @@ export default class BeerCreate extends Component {
           {this.renderPhoto()}
         </ScrollView>
         <Button
-          onPress={this.onNewBeer}
+          onPress={this.onPutBeer}
           text="Finish"/>
       </View>
     )
@@ -154,7 +176,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
-  photoButton: {
+  picButton: {
     marginBottom: 20,
     marginTop: 20,
   }
