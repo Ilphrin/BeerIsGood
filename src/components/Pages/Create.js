@@ -78,6 +78,10 @@ export default class BeerCreate extends Component {
     if (!this.isNewBeer) {
       sqlite_function = sql.update_beer;
     }
+    // This is needed for regressions purpose (old variable for photos)
+    if (newBeer.pic === undefined) {
+      newBeer.pic = newBeer.photo;
+    }
     sqlite_function(sql.db, newBeer, (transaction, result) => {
       this.updateList();
       this.props.navigation.navigate('Home');

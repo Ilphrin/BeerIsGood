@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
-import BeerList from './src/components/Beer/List';
-import BeerCreate from './src/components/Beer/Create';
-import BeerDetail from './src/components/Beer/Detail';
+import BeerList from './src/components/Pages/List';
+import BeerCreate from './src/components/Pages/Create';
+import BeerDetail from './src/components/Pages/Detail';
 
 const RootStack = createStackNavigator(
   {
