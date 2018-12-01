@@ -3,6 +3,8 @@ import {
   StyleSheet, Text, Image, View, TouchableWithoutFeedback,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import ExtraPropTypes from 'react-extra-prop-types';
+import ColorBox from './ColorBox';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,10 +28,14 @@ const styles = StyleSheet.create({
     height: null,
     minHeight: 55,
   },
+  colorBox: {
+    alignItems: 'center',
+    marginTop: 4,
+  },
 });
 
 const Card = ({
-  onPress, source, titleStyle, title, type, children,
+  onPress, source, titleStyle, title, type, children, color,
 }) => (
   <TouchableWithoutFeedback
     onPress={onPress}
@@ -43,6 +49,14 @@ const Card = ({
       <View style={styles.content}>
         <Text style={titleStyle}>{title}</Text>
         <Text style={styles.type}>{type}</Text>
+        <View style={styles.colorBox}>
+          { color && (
+            <ColorBox
+              color={{color}}
+              name="Stout"
+            />
+          )}
+        </View>
         {children}
       </View>
     </View>
@@ -63,6 +77,7 @@ Card.propTypes = {
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,
   ]),
+  color: ExtraPropTypes.color,
 };
 
 Card.defaultProps = {
@@ -74,6 +89,7 @@ Card.defaultProps = {
   onPress: () => {},
   source: {},
   children: undefined,
+  color: undefined,
 };
 
 export default Card;
