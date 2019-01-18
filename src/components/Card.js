@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     minHeight: 55,
   },
   colorBox: {
-    alignItems: 'center',
     marginTop: 4,
   },
 });
@@ -50,12 +49,12 @@ const Card = ({
         <Text style={titleStyle}>{title}</Text>
         <Text style={styles.type}>{type}</Text>
         <View style={styles.colorBox}>
-          { color && (
+          {!!color && 
             <ColorBox
-              color={{color}}
-              name="Stout"
+              color={color}
+              immutable
             />
-          )}
+          }
         </View>
         {children}
       </View>
@@ -77,7 +76,7 @@ Card.propTypes = {
     PropTypes.arrayOf(PropTypes.element),
     PropTypes.element,
   ]),
-  color: ExtraPropTypes.color,
+  color: PropTypes.number,
 };
 
 Card.defaultProps = {
@@ -89,7 +88,7 @@ Card.defaultProps = {
   onPress: () => {},
   source: {},
   children: undefined,
-  color: undefined,
+  color: 0,
 };
 
 export default Card;
