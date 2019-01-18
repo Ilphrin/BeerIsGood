@@ -151,7 +151,12 @@ export default class BeerCreate extends Component {
             onChangeText={this.onChangeName}
           />
 
-          <ColorBox onPress={this.onChangeColor} />
+          <FormLabel>
+            SRM:
+          </FormLabel>
+          <View style={{marginLeft: 20, marginTop: 10, marginBottom: 10}}>
+            <ColorBox onPress={this.onChangeColor} />
+          </View>
 
           <FormLabel>
             Brewery
