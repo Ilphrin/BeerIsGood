@@ -1,6 +1,7 @@
 {
   "name": "BeerIsGood",
   "version": "0.1.0",
+  "dataVersion": "1",
   "private": true,
   "devDependencies": {
     "babel-preset-react-native-stage-0": "^1.0.1",
