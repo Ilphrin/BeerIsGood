@@ -1,12 +1,13 @@
 import { SQLite } from 'expo';
-import requests from './init/init';
+import { requests, versionRequests, commonReq } from './init/init';
+import packageJSON from '../../package.json';
 
 function defaultErrCallback(transaction, error) {
-  console.warn(`[ERR] In transaction ${transaction}: ${error}`);
+  console.warn('[ERR] In transaction ', transaction, error);
 }
 
 function defaultSuccessCallback(transaction, result) {
-  console.log(`[LOG] Success in transaction ${transaction}: ${result}`);
+  console.log(`[LOG] Success in transaction ${JSON.stringify(transaction)} =====> ${JSON.stringify(result)}`);
 }
 
 function request(db, callback, success = () => {}, error = () => {}) {
@@ -16,15 +17,15 @@ function request(db, callback, success = () => {}, error = () => {}) {
 
 function get_all(db, success = defaultSuccessCallback, error = defaultErrCallback) {
   request(db, tx => (
-    tx.executeSql('SELECT * FROM beers;', [], success, error)
+    tx.executeSql(commonReq.getAllBeers, [], success, error)
   ));
 }
 
 function new_beer(db, beer, success = defaultSuccessCallback, error = defaultErrCallback) {
   request(db, tx => (
     tx.executeSql(
-      'insert into beers (name, type, brewery, pic) values (?, ?, ?, ?);',
-      [beer.name, beer.type, beer.brewery, beer.pic],
+      commonReq.newBeer,
+      [beer.name, beer.type, beer.brewery, beer.pic, beer.color],
       success,
       error,
     )
@@ -34,7 +35,7 @@ function new_beer(db, beer, success = defaultSuccessCallback, error = defaultErr
 function rm_beer(db, beerId, success = defaultSuccessCallback, error = defaultErrCallback) {
   request(db, tx => (
     tx.executeSql(
-      'DELETE FROM beers WHERE id = ?',
+      commonReq.rmBeer,
       [beerId],
       success,
       error,
@@ -45,8 +46,8 @@ function rm_beer(db, beerId, success = defaultSuccessCallback, error = defaultEr
 function update_beer(db, beer, success = defaultSuccessCallback, error = defaultErrCallback) {
   request(db, tx => (
     tx.executeSql(
-      'UPDATE beers SET name=?, type=?, brewery=?, pic=? WHERE id=?',
-      [beer.name, beer.type, beer.brewery, beer.pic, beer.id],
+      commonReq.updateBeer,
+      [beer.name, beer.type, beer.brewery, beer.pic, beer.color, beer.id],
       success,
       error,
     )
@@ -54,12 +55,51 @@ function update_beer(db, beer, success = defaultSuccessCallback, error = default
 }
 
 const db = SQLite.openDatabase('beerIsGood');
+const LATEST_VERSION = packageJSON.dataVersion;
+
+function runBasicDatabaseRequests(tx) {
+  for (const req of requests) {
+    console.log(req);
+    tx.executeSql(req, [], defaultSuccessCallback, defaultErrCallback);
+  }
+}
+
+function runVersionnedRequests(tx, version) {
+  for (const req of versionRequests) {
+    if (req[0] > version) {
+      console.log(req[1]);
+      tx.executeSql(req[1], [], defaultSuccessCallback, defaultErrCallback);
+    }
+  }
+  // Version id will always be 1, but we add one for consideration of future dev
+  tx.executeSql(commonReq.updateVersion, [LATEST_VERSION, 1], defaultSuccessCallback, defaultErrCallback);
+}
 
 function init() {
   request(db, (tx) => {
-    for (req of requests) {
-      tx.executeSql(req, []);
-    }
+    tx.executeSql(commonReq.getVersion, [], (transaction, result) => {
+      const res = result.rows._array;
+      if (res.length === 0 || res[0] === null) {
+        runVersionnedRequests(tx, 0);
+        // There is an app but not yet version
+        tx.executeSql(commonReq.createVersion, [], defaultSuccessCallback, defaultErrCallback);
+        tx.executeSql(
+          commonReq.addFirstVersion,
+          [],
+          defaultSuccessCallback,
+          defaultSuccessCallback,
+        );
+      } else {
+        // WORKING
+        const { version } = res[0];
+        runVersionnedRequests(tx, version);
+      }
+    }, () => {
+      // First time the app launches
+      runBasicDatabaseRequests(tx);
+      tx.executeSql(commonReq.addFirstVersion, [0], defaultSuccessCallback, defaultErrCallback);
+      runVersionnedRequests(tx, -1);
+    });
   });
 }
 
