@@ -49,11 +49,12 @@ const Card = ({
         <Text style={titleStyle}>{title}</Text>
         <Text style={styles.type}>{type}</Text>
         <View style={styles.colorBox}>
-          {!!color && 
+          {color !== null
+          && (
             <ColorBox
-              color={color}
+              index={color}
               immutable
-            />
+            />)
           }
         </View>
         {children}
@@ -88,7 +89,7 @@ Card.defaultProps = {
   onPress: () => {},
   source: {},
   children: undefined,
-  color: 0,
+  color: null,
 };
 
 export default Card;

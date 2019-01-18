@@ -42,6 +42,7 @@ class BeerDetail extends React.Component {
     this.id = params.beer.id;
     this.type = params.beer.type;
     this.name = `${params.beer.name} - ${params.beer.brewery}`;
+    this.color = params.beer.color;
     this.source = params.beer.pic !== '' ? { uri: params.beer.pic } : defaultAsset;
     this.updateList = params.updateList;
   }
@@ -59,28 +60,30 @@ class BeerDetail extends React.Component {
 
   render() {
     return (
-      <Card
-        source={this.source}
-        title={this.name}
-        type={this.type}
-        style={styles.container}
-        titleStyle={{
-          fontSize: 20,
-          color: '#222',
-          fontWeight: 'bold',
-        }}
-      >
-        <Button
-          onPress={() => {
-            sql.rm_beer(sql.db, this.id, () => {
-              this.updateList();
-              this.navigation.goBack();
-            });
+      <View style={styles.container}>
+        <Card
+          source={this.source}
+          title={this.name}
+          type={this.type}
+          color={this.color}
+          titleStyle={{
+            fontSize: 20,
+            color: '#222',
+            fontWeight: 'bold',
           }}
-          text="Remove this beer"
-          negative
-        />
-      </Card>
+        >
+        </Card>
+        <Button
+            onPress={() => {
+              sql.rm_beer(sql.db, this.id, () => {
+                this.updateList();
+                this.navigation.goBack();
+              });
+            }}
+            text="Remove this beer"
+            negative
+          />
+      </View>
     );
   }
 }

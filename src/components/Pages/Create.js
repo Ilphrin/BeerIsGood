@@ -8,6 +8,7 @@ import sql from '../../models/sqlite';
 import primaryButton from '../../StyleSheet/buttons';
 import container from '../../StyleSheet/container';
 import Button from '../Button';
+import ColorBox from '../ColorBox';
 
 export default class BeerCreate extends Component {
   constructor(props) {
@@ -18,9 +19,9 @@ export default class BeerCreate extends Component {
 
     if (beer !== undefined) {
       this.state = {
-        hasCameraPermissions: null,
-        isUsingCamera: false,
-        ...beer,
+      hasCameraPermissions: null,
+      isUsingCamera: false,
+      ...beer,
       };
       this.isNewBeer = false;
     }
@@ -30,6 +31,7 @@ export default class BeerCreate extends Component {
         brewery: '',
         type: '',
         pic: '',
+        color: 0,
         hasCameraPermissions: null,
         isUsingCamera: false
       };
@@ -56,19 +58,25 @@ export default class BeerCreate extends Component {
 
   onChangeName = (name) => {
     this.setState({
-      name
+      name,
     });
   }
 
   onChangeBrewery = (brewery) => {
     this.setState({
-      brewery
+      brewery,
     });
   }
 
   onChangeType = (type) => {
     this.setState({
-      type
+      type,
+    });
+  }
+
+  onChangeColor = (color) => {
+    this.setState({
+      color,
     });
   }
 
@@ -78,7 +86,7 @@ export default class BeerCreate extends Component {
     if (!this.isNewBeer) {
       sqlite_function = sql.update_beer;
     }
-    // This is needed for regressions purpose (old variable for photos)
+    // This is needed for regressions purpose (old variable name for photos)
     if (newBeer.pic === undefined) {
       newBeer.pic = newBeer.photo;
     }
@@ -137,10 +145,13 @@ export default class BeerCreate extends Component {
           <FormLabel>
             Name:
           </FormLabel>
+
           <FormInput
             value={this.state.name}
             onChangeText={this.onChangeName}
           />
+
+          <ColorBox onPress={this.onChangeColor} />
 
           <FormLabel>
             Brewery

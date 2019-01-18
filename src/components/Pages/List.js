@@ -13,11 +13,7 @@ export default class BeerList extends Component {
     this.state = {
       beers: []
     };
-    sql.get_all(sql.db, (transaction, result) => {
-      this.setState({
-        beers: result.rows._array
-      });
-    });
+    this.updateList();
   }
 
   static navigationOptions = {
@@ -50,6 +46,7 @@ export default class BeerList extends Component {
             source={source}
             title={title}
             type={elem.type}
+            color={elem.color}
             onPress={this.goToDetail.bind(this, elem)}
           />
         </View>
