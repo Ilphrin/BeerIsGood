@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, Text, View, PermissionsAndroid, Dimensions, Mod
 import PropTypes from 'prop-types';
 import { FormLabel, FormInput } from 'react-native-elements';
 const { Permissions, FileSystem } = Expo;
+import BeerInput from '../../containers/BeerInput.js';
 import CameraContainer from '../../containers/CameraContainer';
 import sql from '../../models/sqlite';
 import primaryButton from '../../StyleSheet/buttons';
@@ -55,6 +56,12 @@ export default class BeerCreate extends Component {
     return {
       title: 'New Beer',
     };
+  }
+
+  onChangeValue = (value, name) => {
+    let newState = {};
+    newState[name] = value;
+    this.setState(newState);
   }
 
   onChangeName = (name) => {
@@ -149,13 +156,11 @@ export default class BeerCreate extends Component {
       <View style={styles.container}>
         {camera}
         <ScrollView>
-          <FormLabel>
-            Name:
-          </FormLabel>
-
-          <FormInput
+          <BeerInput
             value={this.state.name}
-            onChangeText={this.onChangeName}
+            onChangeText={this.onChangeValue}
+            label="Name:"
+            name="name"
           />
 
           <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -169,32 +174,29 @@ export default class BeerCreate extends Component {
             </View>
 
             <View style={{maxWidth: '30%'}}>
-              <FormLabel>
-                IBU:
-              </FormLabel>
-
-              <FormInput
-                value={this.state.IBU}
-                onChangeText={this.onChangeIBU}
+              <BeerInput
+                value={this.state.ibu}
+                onChangeText={this.onChangeValue}
+                label="IBU:"
+                name="ibu"
               />
             </View>
           </View>
 
-          <FormLabel>
-            Brewery
-          </FormLabel>
-          <FormInput
+          <BeerInput
             value={this.state.brewery}
-            onChangeText={this.onChangeBrewery}
+            onChangeText={this.onChangeValue}
+            label="Brewery:"
+            name="brewery"
           />
 
-          <FormLabel>
-            Type
-          </FormLabel>
-          <FormInput
+          <BeerInput
             value={this.state.type}
-            onChangeText={this.onChangeType}
+            onChangeText={this.onChangeValue}
+            label="Type:"
+            name="type"
           />
+
           {this.renderPhoto()}
         </ScrollView>
         <Button
@@ -221,7 +223,12 @@ const styles = StyleSheet.create({
   picButton: {
     marginBottom: 20,
     marginTop: 20,
-  }
+  },
+  multipleColumn: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });
 
 BeerCreate.propTypes = {
