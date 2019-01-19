@@ -19,7 +19,8 @@
     "start": "react-native start",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "jest"
+    "test": "jest",
+    "dev": "react-devtools & expo start"
   },
   "jest": {
     "preset": "jest-expo"
