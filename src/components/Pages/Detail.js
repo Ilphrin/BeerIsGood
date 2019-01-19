@@ -44,6 +44,7 @@ class BeerDetail extends React.Component {
     this.name = `${params.beer.name} - ${params.beer.brewery}`;
     this.color = params.beer.color;
     this.source = params.beer.pic !== '' ? { uri: params.beer.pic } : defaultAsset;
+    this.ibu = params.beer.ibu;
     this.updateList = params.updateList;
   }
 
@@ -72,6 +73,7 @@ class BeerDetail extends React.Component {
             fontWeight: 'bold',
           }}
         >
+          <Text>IBU: {this.ibu}</Text>
         </Card>
         <Button
             onPress={() => {

@@ -32,6 +32,7 @@ export default class BeerCreate extends Component {
         type: '',
         pic: '',
         color: 0,
+        ibu: 0,
         hasCameraPermissions: null,
         isUsingCamera: false
       };
@@ -77,6 +78,12 @@ export default class BeerCreate extends Component {
   onChangeColor = (color) => {
     this.setState({
       color,
+    });
+  }
+
+  onChangeIBU = (ibu) => {
+    this.setState({
+      ibu,
     });
   }
 
@@ -151,11 +158,26 @@ export default class BeerCreate extends Component {
             onChangeText={this.onChangeName}
           />
 
-          <FormLabel>
-            SRM:
-          </FormLabel>
-          <View style={{marginLeft: 20, marginTop: 10, marginBottom: 10}}>
-            <ColorBox onPress={this.onChangeColor} />
+          <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View>
+              <FormLabel>
+                SRM:
+              </FormLabel>
+              <View style={{marginLeft: 20, marginTop: 5, marginBottom: 10}}>
+                <ColorBox onPress={this.onChangeColor} />
+              </View>
+            </View>
+
+            <View style={{maxWidth: '30%'}}>
+              <FormLabel>
+                IBU:
+              </FormLabel>
+
+              <FormInput
+                value={this.state.IBU}
+                onChangeText={this.onChangeIBU}
+              />
+            </View>
           </View>
 
           <FormLabel>
