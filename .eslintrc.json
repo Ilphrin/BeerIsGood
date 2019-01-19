@@ -6,6 +6,7 @@
         "no-restricted-syntax": [
             "off", "ForOfStatement"
         ],
-        "no-underscore-dangle": 0
+        "no-underscore-dangle": 0,
+        "react/destructuring-assignment": "never"
     }
 }
