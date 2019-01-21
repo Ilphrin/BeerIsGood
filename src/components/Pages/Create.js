@@ -3,7 +3,8 @@ import { StyleSheet, ScrollView, Text, View, PermissionsAndroid, Dimensions, Mod
 import PropTypes from 'prop-types';
 import { FormLabel, FormInput } from 'react-native-elements';
 const { Permissions, FileSystem } = Expo;
-import BeerInput from '../../containers/BeerInput.js';
+import BeerCarousel from '../BeerCarousel';
+import BeerInput from '../../containers/BeerInput';
 import CameraContainer from '../../containers/CameraContainer';
 import sql from '../../models/sqlite';
 import primaryButton from '../../StyleSheet/buttons';
@@ -75,7 +76,6 @@ export default class BeerCreate extends Component {
     if (newBeer.pic === undefined) {
       newBeer.pic = newBeer.photo;
     }
-    console.log(newBeer);
     sqlite_function(sql.db, newBeer, (transaction, result) => {
       this.updateList();
       this.props.navigation.navigate('Home');
@@ -115,9 +115,9 @@ export default class BeerCreate extends Component {
     }
     else {
       return (
-        <Image
-          style={styles.beerImage}
-          source={{uri: this.state.pic}}/>
+        <BeerCarousel
+          data={[{pic: this.state.pic}]}
+        />
       );
     }
   }

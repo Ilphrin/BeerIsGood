@@ -30,7 +30,7 @@ export default class CameraContainer extends Component {
         pictureLoading: true,
       });
       await this.camera.takePictureAsync({
-        quality: 0.0,
+        quality: 0.5,
       }).then(photo => {
         this.onPictureSaved(photo);
       }).catch(e => {
@@ -54,6 +54,10 @@ export default class CameraContainer extends Component {
     });
   }
 
+  onQuit = () => {
+    this.props.onPictureTaken('');
+  }
+
   render() {
     if (this.state.hasCameraPermissions) {
       return (
@@ -61,6 +65,7 @@ export default class CameraContainer extends Component {
           style={styles.camera}
           onCameraReady={this.onCameraReady}
           takePhoto={this.takePhoto}
+          onQuit={this.onQuit}
           getRef={(ref) => { this.camera = ref; }}
           pictureLoading={this.state.pictureLoading}
         />

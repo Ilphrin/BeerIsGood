@@ -1,12 +1,30 @@
 import React from 'react';
-import { Modal, ActivityIndicator } from 'react-native';
+import {
+  Modal,
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import Button from './Button';
 
 const { Camera } = Expo; // eslint-disable-line no-undef
 
+const quitIcon = require('../../assets/icons/remove.png');
+
+const styles = StyleSheet.create({
+  remove: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 32,
+    height: 32,
+  },
+});
+
 const BCamera = ({
-  onRequestClose, style, onCameraReady, takePhoto, getRef, pictureLoading,
+  onRequestClose, style, onCameraReady, takePhoto, onQuit, getRef, pictureLoading,
 }) => (
   <Modal
     animationType="fade"
@@ -20,6 +38,14 @@ const BCamera = ({
       ratio="16:9"
       ref={getRef}
     />
+    <TouchableWithoutFeedback onPress={onQuit}>
+      <Image
+        source={quitIcon}
+        style={styles.remove}
+        onPress={onQuit}
+      />
+    </TouchableWithoutFeedback>
+
     {pictureLoading ? (
       <ActivityIndicator
         size="large"
@@ -47,6 +73,7 @@ const BCamera = ({
         }}
       />
     )}
+
   </Modal>
 );
 
@@ -59,6 +86,8 @@ BCamera.propTypes = {
   onCameraReady: PropTypes.func.isRequired,
   takePhoto: PropTypes.func.isRequired,
   getRef: PropTypes.func.isRequired,
+  pictureLoading: PropTypes.bool.isRequired,
+  onQuit: PropTypes.func.isRequired,
 };
 
 BCamera.defaultProps = {
