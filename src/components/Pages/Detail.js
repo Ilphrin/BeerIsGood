@@ -45,6 +45,7 @@ class BeerDetail extends React.Component {
     this.color = params.beer.color;
     this.source = params.beer.pic !== '' ? { uri: params.beer.pic } : defaultAsset;
     this.ibu = params.beer.ibu;
+    this.alcohol = params.beer.alcohol;
     this.updateList = params.updateList;
   }
 
@@ -74,6 +75,7 @@ class BeerDetail extends React.Component {
           }}
         >
           <Text>IBU: {this.ibu}</Text>
+          <Text>Alcohol: {this.alcohol}</Text>
         </Card>
         <Button
             onPress={() => {

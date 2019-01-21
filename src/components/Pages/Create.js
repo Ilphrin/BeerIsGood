@@ -34,6 +34,7 @@ export default class BeerCreate extends Component {
         pic: '',
         color: 0,
         ibu: 0,
+        alcohol: 0.0,
         hasCameraPermissions: null,
         isUsingCamera: false
       };
@@ -64,36 +65,6 @@ export default class BeerCreate extends Component {
     this.setState(newState);
   }
 
-  onChangeName = (name) => {
-    this.setState({
-      name,
-    });
-  }
-
-  onChangeBrewery = (brewery) => {
-    this.setState({
-      brewery,
-    });
-  }
-
-  onChangeType = (type) => {
-    this.setState({
-      type,
-    });
-  }
-
-  onChangeColor = (color) => {
-    this.setState({
-      color,
-    });
-  }
-
-  onChangeIBU = (ibu) => {
-    this.setState({
-      ibu,
-    });
-  }
-
   onPutBeer = (event) => {
     const newBeer = this.state;
     let sqlite_function = sql.new_beer;
@@ -104,6 +75,7 @@ export default class BeerCreate extends Component {
     if (newBeer.pic === undefined) {
       newBeer.pic = newBeer.photo;
     }
+    console.log(newBeer);
     sqlite_function(sql.db, newBeer, (transaction, result) => {
       this.updateList();
       this.props.navigation.navigate('Home');
@@ -169,7 +141,7 @@ export default class BeerCreate extends Component {
                 SRM:
               </FormLabel>
               <View style={{marginLeft: 20, marginTop: 5, marginBottom: 10}}>
-                <ColorBox onPress={this.onChangeColor} />
+                <ColorBox onPress={this.onChangeValue} />
               </View>
             </View>
 
@@ -179,6 +151,15 @@ export default class BeerCreate extends Component {
                 onChangeText={this.onChangeValue}
                 label="IBU:"
                 name="ibu"
+              />
+            </View>
+
+            <View style={{maxWidth: '30%'}}>
+              <BeerInput
+                value={this.state.alcohol}
+                onChangeText={this.onChangeValue}
+                label="Alcohol:"
+                name="alcohol"
               />
             </View>
           </View>

@@ -25,7 +25,7 @@ function new_beer(db, beer, success = defaultSuccessCallback, error = defaultErr
   request(db, tx => (
     tx.executeSql(
       commonReq.newBeer,
-      [beer.name, beer.type, beer.brewery, beer.pic, beer.color, beer.ibu],
+      [beer.name, beer.type, beer.brewery, beer.pic, beer.color, beer.ibu, beer.alcohol],
       success,
       error,
     )
@@ -47,7 +47,7 @@ function update_beer(db, beer, success = defaultSuccessCallback, error = default
   request(db, tx => (
     tx.executeSql(
       commonReq.updateBeer,
-      [beer.name, beer.type, beer.brewery, beer.pic, beer.color, beer.ibu, beer.id],
+      [beer.name, beer.type, beer.brewery, beer.pic, beer.color, beer.ibu, beer.alcohol, beer.id],
       success,
       error,
     )

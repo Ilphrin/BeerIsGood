@@ -54,7 +54,7 @@ class ColorBox extends React.PureComponent {
         index: newIndex,
         text: this.generateText(newIndex),
       });
-      this.state.onPress(newIndex);
+      this.state.onPress(newIndex, "color");
     }    
   }
 
