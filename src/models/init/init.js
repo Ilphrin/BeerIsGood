@@ -7,14 +7,16 @@ const versionRequests = [
   [0, 'ALTER TABLE beers ADD COLUMN pic TEXT;'],
   [1, 'ALTER TABLE beers ADD COLUMN color INTEGER;'],
   [1, 'ALTER TABLE beers ADD COLUMN ibu INTEGER;'],
-  [1, 'ALTER TABLE beers ADD COLUMN alcohol DECIMAL'],
+  [1, 'ALTER TABLE beers ADD COLUMN alcohol DECIMAL;'],
+  [1, 'ALTER TABLE beers ADD COLUMN picsecond TEXT;'],
+  [1, 'ALTER TABLE beers ADD COLUMN picthird TEXT;'],
 ];
 
 const commonReq = {
   getAllBeers: 'SELECT * FROM beers;',
-  newBeer: 'INSERT INTO beers (name, type, brewery, pic, color, ibu, alcohol) VALUES (?, ?, ?, ?, ?, ?, ?);',
+  newBeer: 'INSERT INTO beers (name, type, brewery, pic, picsecond, picthird, color, ibu, alcohol) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);',
   rmBeer: 'DELETE FROM beers WHERE id=?',
-  updateBeer: 'UPDATE beers SET name=?, type=?, brewery=?, pic=?, color=?, ibu=?, alcohol=? WHERE id=?',
+  updateBeer: 'UPDATE beers SET name=?, type=?, brewery=?, pic=?, picsecond=?, picthird=?, color=?, ibu=?, alcohol=? WHERE id=?',
   getVersion: 'SELECT * FROM version;',
   addFirstVersion: 'INSERT INTO version (version) VALUES (?);',
   updateVersion: 'UPDATE version SET version=? WHERE id=?',

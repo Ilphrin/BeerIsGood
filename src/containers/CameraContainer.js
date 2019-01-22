@@ -30,7 +30,7 @@ export default class CameraContainer extends Component {
         pictureLoading: true,
       });
       await this.camera.takePictureAsync({
-        quality: 0.5,
+        quality: 0.0,
       }).then(photo => {
         this.onPictureSaved(photo);
       }).catch(e => {

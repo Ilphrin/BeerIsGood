@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, Text, View, PermissionsAndroid, Dimensions, Mod
 import PropTypes from 'prop-types';
 import { FormLabel, FormInput } from 'react-native-elements';
 const { Permissions, FileSystem } = Expo;
-import BeerCarousel from '../BeerCarousel';
+import BeerCarousel from '../../containers/BeerCarousel';
 import BeerInput from '../../containers/BeerInput';
 import CameraContainer from '../../containers/CameraContainer';
 import sql from '../../models/sqlite';
@@ -11,6 +11,7 @@ import primaryButton from '../../StyleSheet/buttons';
 import container from '../../StyleSheet/container';
 import Button from '../Button';
 import ColorBox from '../ColorBox';
+import mapPicCarousel from '../../utils/mapPicCarousel';
 
 export default class BeerCreate extends Component {
   constructor(props) {
@@ -33,6 +34,8 @@ export default class BeerCreate extends Component {
         brewery: '',
         type: '',
         pic: '',
+        picsecond: '',
+        picthird: '',
         color: 0,
         ibu: 0,
         alcohol: 0.0,
@@ -83,10 +86,20 @@ export default class BeerCreate extends Component {
   }
 
   onPictureTaken = (uri) => {
-    this.setState({
-      pic: uri,
-      isUsingCamera: false
-    })
+    let obj = {
+      isUsingCamera: false,
+    };
+    if (this.state.pic === '') {
+      obj.pic = uri;
+    }
+    else if (this.state.picsecond === '') {
+      obj.picsecond = uri;
+    }
+    else {
+      obj.picthird = uri;
+    }
+
+    this.setState(obj);
   }
 
   renderCamera() {
@@ -104,22 +117,12 @@ export default class BeerCreate extends Component {
     });
   }
 
-  renderPhoto() {
-    if (this.state.pic === '') {
-      return (
-        <Button
-          onPress={this.isUsingCamera}
-          style={styles.picButton}
-          text="Take a Photo!" />
-      );
-    }
-    else {
-      return (
-        <BeerCarousel
-          data={[{pic: this.state.pic}]}
-        />
-      );
-    }
+  renderPhotos = () => {
+    return (
+      <BeerCarousel
+        data={mapPicCarousel(this.state.pic, this.state.picsecond, this.state.picthird)}
+      />
+    );
   }
 
   render() {
@@ -178,7 +181,14 @@ export default class BeerCreate extends Component {
             name="type"
           />
 
-          {this.renderPhoto()}
+          {this.state.picthird === '' && (
+            <Button
+              onPress={this.isUsingCamera}
+              style={styles.picButton}
+              text="Take a new Photo!"
+            />
+          )}
+          {this.renderPhotos()}
         </ScrollView>
         <Button
           onPress={this.onPutBeer}

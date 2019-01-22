@@ -6,6 +6,7 @@ import Card from '../Card';
 import Button from '../Button';
 import container from '../../StyleSheet/container';
 import { Text, Image, View, TouchableOpacity } from 'react-native';
+import BeerCarousel from '../../containers/BeerCarousel';
 
 const defaultAsset = require('../../../assets/icons/beer128.png');
 const editIcon = require('../../../assets/icons/edit.png');
@@ -47,6 +48,7 @@ class BeerDetail extends React.Component {
     this.ibu = params.beer.ibu;
     this.alcohol = params.beer.alcohol;
     this.updateList = params.updateList;
+    this.pics = [params.beer.pic, params.beer.picsecond, params.beer.picthird];
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -68,6 +70,7 @@ class BeerDetail extends React.Component {
           title={this.name}
           type={this.type}
           color={this.color}
+          pics={this.pics}
           titleStyle={{
             fontSize: 20,
             color: '#222',

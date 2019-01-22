@@ -3,8 +3,9 @@ import {
   StyleSheet, Text, Image, View, TouchableWithoutFeedback,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import ExtraPropTypes from 'react-extra-prop-types';
 import ColorBox from './ColorBox';
+import BeerCarousel from '../containers/BeerCarousel';
+import mapPicCarousel from '../utils/mapPicCarousel';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,18 +34,31 @@ const styles = StyleSheet.create({
   },
 });
 
+const hasMultiplePictures = (source, pics) => {
+  if (pics.length > 1) {
+    return (
+      <BeerCarousel
+        data={mapPicCarousel(pics[0], pics[1], pics[2])}
+      />
+    );
+  }
+  return (
+    <Image
+      resizeMode="contain"
+      source={source}
+      style={styles.image}
+    />
+  );
+};
+
 const Card = ({
-  onPress, source, titleStyle, title, type, children, color,
+  onPress, source, titleStyle, title, type, children, color, pics,
 }) => (
   <TouchableWithoutFeedback
     onPress={onPress}
   >
     <View style={styles.container}>
-      <Image
-        resizeMode="contain"
-        source={source}
-        style={styles.image}
-      />
+      {hasMultiplePictures(source, pics)}
       <View style={styles.content}>
         <Text style={titleStyle}>{title}</Text>
         <Text style={styles.type}>{type}</Text>
@@ -78,6 +92,7 @@ Card.propTypes = {
     PropTypes.element,
   ]),
   color: PropTypes.number,
+  pics: PropTypes.array,
 };
 
 Card.defaultProps = {
@@ -90,6 +105,7 @@ Card.defaultProps = {
   source: {},
   children: undefined,
   color: null,
+  pics: [],
 };
 
 export default Card;
