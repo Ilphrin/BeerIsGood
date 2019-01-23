@@ -65,7 +65,9 @@ export default class BeerList extends Component {
           />
         </View>
         );
-    }); // backingColor is set to the same as the background, as transparent is illegal
+      });
+      // backingColor is set to the same as the background of the app,
+      //as transparent is illegal
 
     return (
       <View style={styles.container}>

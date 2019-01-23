@@ -146,7 +146,7 @@ export default class BeerCreate extends Component {
                 SRM:
               </FormLabel>
               <View style={{marginLeft: 20, marginTop: 5, marginBottom: 10}}>
-                <ColorBox onPress={this.onChangeValue} />
+                <ColorBox onPress={this.onChangeValue} index={this.state.color} />
               </View>
             </View>
 
@@ -184,7 +184,7 @@ export default class BeerCreate extends Component {
           />
 
           <Stars
-            default={3}
+            default={this.state.stars}
             spacing={12}
             count={5}
             starSize={12}
