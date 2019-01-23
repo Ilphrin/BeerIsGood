@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from 'react-navigation';
-import BeerList from './src/components/Pages/List';
-import BeerCreate from './src/components/Pages/Create';
-import BeerDetail from './src/components/Pages/Detail';
+import BeerList from './src/containers/Pages/List';
+import BeerCreate from './src/containers/Pages/Create';
+import BeerDetail from './src/containers/Pages/Detail';
 
 const RootStack = createStackNavigator(
   {
@@ -12,6 +12,9 @@ const RootStack = createStackNavigator(
   },
   {
     initialRouteName: 'Home',
+    cardStyle: {
+      backgroundColor: '#EAEADF',
+    },
   },
 );
 

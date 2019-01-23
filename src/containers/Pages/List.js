@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, View, Dimensions} from 'react-native';
 import PropTypes from 'prop-types';
+import Stars from 'react-native-stars';
 import sql from '../../models/sqlite';
-import Button from '../Button';
-import Card from '../Card';
+import Button from '../../components/Button';
+import Card from '../../components/Card';
 import container from '../../StyleSheet/container';
 
 export default class BeerList extends Component {
@@ -40,18 +41,31 @@ export default class BeerList extends Component {
       const title=`${elem.name} - ${elem.brewery}`
       const source = elem.pic !== '' && elem.pic ? { uri: elem.pic } : require('../../../assets/icons/beer.png');
       return (
-        <View key={elem.id}
-          style={styles.card}>
-          <Card
-            source={source}
-            title={title}
-            type={elem.type}
-            color={elem.color}
-            onPress={this.goToDetail.bind(this, elem)}
+        <View
+          key={elem.id}
+          style={styles.cardStars}
+        >
+          <View
+            style={styles.card}>
+            <Card
+              source={source}
+              title={title}
+              type={elem.type}
+              color={elem.color}
+              onPress={this.goToDetail.bind(this, elem)}
+            />
+          </View>
+          <Stars
+            display={elem.stars}
+            spacing={12}
+            count={5}
+            starSize={12}
+            emptyStar={require('../../../assets/icons/emptyStar.png')}
+            backingColor={"#EAEADF"}
           />
         </View>
         );
-    });
+    }); // backingColor is set to the same as the background, as transparent is illegal
 
     return (
       <View style={styles.container}>
@@ -89,7 +103,10 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     elevation: 3,
     backgroundColor: '#FFF',
-    marginBottom: 15
+    marginBottom: 5,
+  },
+  cardStars: {
+    marginBottom: 12.
   },
 });
 

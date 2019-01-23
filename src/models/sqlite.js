@@ -25,7 +25,7 @@ function new_beer(db, beer, success = defaultSuccessCallback, error = defaultErr
   request(db, tx => (
     tx.executeSql(
       commonReq.newBeer,
-      [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond, beer.picthird, beer.color, beer.ibu, beer.alcohol],
+      [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond, beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.stars],
       success,
       error,
     )
@@ -47,7 +47,7 @@ function update_beer(db, beer, success = defaultSuccessCallback, error = default
   request(db, tx => (
     tx.executeSql(
       commonReq.updateBeer,
-      [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond, beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.id],
+      [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond, beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.id, beer.stars],
       success,
       error,
     )
@@ -59,7 +59,6 @@ const LATEST_VERSION = packageJSON.dataVersion;
 
 function runBasicDatabaseRequests(tx) {
   for (const req of requests) {
-    console.log(req);
     tx.executeSql(req, [], defaultSuccessCallback, defaultErrCallback);
   }
 }
@@ -67,7 +66,6 @@ function runBasicDatabaseRequests(tx) {
 function runVersionnedRequests(tx, version) {
   for (const req of versionRequests) {
     if (req[0] > version) {
-      console.log(req[1]);
       tx.executeSql(req[1], [], defaultSuccessCallback, defaultErrCallback);
     }
   }

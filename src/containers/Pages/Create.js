@@ -3,14 +3,15 @@ import { StyleSheet, ScrollView, Text, View, PermissionsAndroid, Dimensions, Mod
 import PropTypes from 'prop-types';
 import { FormLabel, FormInput } from 'react-native-elements';
 const { Permissions, FileSystem } = Expo;
-import BeerCarousel from '../../containers/BeerCarousel';
-import BeerInput from '../../containers/BeerInput';
-import CameraContainer from '../../containers/CameraContainer';
+import Stars from 'react-native-stars';
+import BeerCarousel from '../BeerCarousel';
+import BeerInput from '../BeerInput';
+import CameraContainer from '../CameraContainer';
 import sql from '../../models/sqlite';
 import primaryButton from '../../StyleSheet/buttons';
 import container from '../../StyleSheet/container';
-import Button from '../Button';
-import ColorBox from '../ColorBox';
+import Button from '../../components/Button';
+import ColorBox from '../../components/ColorBox';
 import mapPicCarousel from '../../utils/mapPicCarousel';
 
 export default class BeerCreate extends Component {
@@ -39,6 +40,7 @@ export default class BeerCreate extends Component {
         color: 0,
         ibu: 0,
         alcohol: 0.0,
+        stars: 3,
         hasCameraPermissions: null,
         isUsingCamera: false
       };
@@ -179,6 +181,16 @@ export default class BeerCreate extends Component {
             onChangeText={this.onChangeValue}
             label="Type:"
             name="type"
+          />
+
+          <Stars
+            default={3}
+            spacing={12}
+            count={5}
+            starSize={12}
+            emptyStar={require('../../../assets/icons/emptyStar.png')}
+            backingColor={"#EAEADF"}
+            update={(val) => { this.setState({ stars: val }) }}
           />
 
           {this.state.picthird === '' && (

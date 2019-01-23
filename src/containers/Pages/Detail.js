@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+import Stars from 'react-native-stars';
 import sql from '../../models/sqlite';
-import Card from '../Card';
-import Button from '../Button';
+import Card from '../../components/Card';
+import Button from '../../components/Button';
 import container from '../../StyleSheet/container';
 import { Text, Image, View, TouchableOpacity } from 'react-native';
-import BeerCarousel from '../../containers/BeerCarousel';
+import BeerCarousel from '../BeerCarousel';
 
 const defaultAsset = require('../../../assets/icons/beer128.png');
 const editIcon = require('../../../assets/icons/edit.png');
@@ -49,6 +50,7 @@ class BeerDetail extends React.Component {
     this.alcohol = params.beer.alcohol;
     this.updateList = params.updateList;
     this.pics = [params.beer.pic, params.beer.picsecond, params.beer.picthird];
+    this.stars = params.beer.stars;
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -79,6 +81,14 @@ class BeerDetail extends React.Component {
         >
           <Text>IBU: {this.ibu}</Text>
           <Text>Alcohol: {this.alcohol}</Text>
+          <Stars
+            display={this.stars}
+            spacing={12}
+            count={5}
+            starSize={18}
+            emptyStar={require('../../../assets/icons/emptyStar.png')}
+            backingColor={"#EAEADF"}
+          />
         </Card>
         <Button
             onPress={() => {
