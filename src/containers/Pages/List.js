@@ -23,6 +23,11 @@ export default class BeerList extends Component {
 
   updateList = () => {
     sql.get_all(sql.db, (transaction, result) => {
+      // We need to truncate Alcohol as there is some noise in the decimals
+      const beers = result.rows._array;
+      beers.forEach((elem) => {
+        elem.alcohol = Math.round(elem.alcohol * 100) / 100;
+      });
       this.setState({
         beers: result.rows._array
       });

@@ -183,15 +183,17 @@ export default class BeerCreate extends Component {
             name="type"
           />
 
-          <Stars
-            default={this.state.stars}
-            spacing={12}
-            count={5}
-            starSize={12}
-            emptyStar={require('../../../assets/icons/emptyStar.png')}
-            backingColor={"#EAEADF"}
-            update={(val) => { this.setState({ stars: val }) }}
-          />
+          <View style={{marginBottom: 20, marginTop: 20}}>
+            <Stars
+              default={this.state.stars}
+              spacing={12}
+              count={5}
+              starSize={18}
+              emptyStar={require('../../../assets/icons/emptyStar.png')}
+              backingColor={"#EAEADF"}
+              update={(val) => { this.setState({ stars: val }) }}
+            />
+          </View>
 
           {this.state.picthird === '' && (
             <Button
@@ -226,6 +228,8 @@ const styles = StyleSheet.create({
   picButton: {
     marginBottom: 20,
     marginTop: 20,
+    marginRight: 15,
+    marginLeft: 15,
   },
   multipleColumn: {
     display: 'flex',
