@@ -34,31 +34,30 @@ const styles = StyleSheet.create({
   },
 });
 
-const hasMultiplePictures = (source, pics) => {
-  if (pics.length > 1) {
+const hasPicture = (source) => {
+  if (source) {
     return (
-      <BeerCarousel
-        data={mapPicCarousel(pics[0], pics[1], pics[2])}
+      <Image
+        resizeMode="contain"
+        source={source}
+        style={styles.image}
       />
     );
   }
+  // If source=null, meaning we don't show anything
   return (
-    <Image
-      resizeMode="contain"
-      source={source}
-      style={styles.image}
-    />
+    <View />
   );
 };
 
 const Card = ({
-  onPress, source, titleStyle, title, type, children, color, pics,
+  onPress, source, titleStyle, title, type, children, color,
 }) => (
   <TouchableWithoutFeedback
     onPress={onPress}
   >
     <View style={styles.container}>
-      {hasMultiplePictures(source, pics)}
+      {hasPicture(source)}
       <View style={styles.content}>
         <Text style={titleStyle}>{title}</Text>
         <Text style={styles.type}>{type}</Text>
@@ -102,7 +101,7 @@ Card.defaultProps = {
     height: 15,
   },
   onPress: () => {},
-  source: {},
+  source: require('../../assets/icons/beer128.png'),
   children: undefined,
   color: null,
   pics: [],

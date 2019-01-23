@@ -1,13 +1,13 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Stars from 'react-native-stars';
 import sql from '../../models/sqlite';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import container from '../../StyleSheet/container';
-import { Text, Image, View, TouchableOpacity } from 'react-native';
+import { Text, Image, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import BeerCarousel from '../BeerCarousel';
+import mapPicCarousel from '../../utils/mapPicCarousel.js';
 
 const defaultAsset = require('../../../assets/icons/beer128.png');
 const editIcon = require('../../../assets/icons/edit.png');
@@ -45,11 +45,11 @@ class BeerDetail extends React.Component {
     this.type = params.beer.type;
     this.name = `${params.beer.name} - ${params.beer.brewery}`;
     this.color = params.beer.color;
-    this.source = params.beer.pic !== '' ? { uri: params.beer.pic } : defaultAsset;
     this.ibu = params.beer.ibu;
     this.alcohol = params.beer.alcohol;
     this.updateList = params.updateList;
     this.pics = [params.beer.pic, params.beer.picsecond, params.beer.picthird];
+    this.source = this.pics[0] ? null : defaultAsset;
     this.stars = params.beer.stars;
   }
 
@@ -67,30 +67,35 @@ class BeerDetail extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Card
-          source={this.source}
-          title={this.name}
-          type={this.type}
-          color={this.color}
-          pics={this.pics}
-          titleStyle={{
-            fontSize: 20,
-            color: '#222',
-            fontWeight: 'bold',
-          }}
-        >
-          <Text>IBU: {this.ibu}</Text>
-          <Text>Alcohol: {this.alcohol}</Text>
-          <Stars
-            display={this.stars}
-            spacing={12}
-            count={5}
-            starSize={18}
-            emptyStar={require('../../../assets/icons/emptyStar.png')}
-            backingColor={"#EAEADF"}
-          />
-        </Card>
-        <Button
+        <ScrollView>
+          {!this.source && (
+            <BeerCarousel
+              data={mapPicCarousel(this.pics[0], this.pics[1], this.pics[2])}
+            />
+          )}
+          <Card
+            source={this.source}
+            title={this.name}
+            type={this.type}
+            color={this.color}
+            titleStyle={{
+              fontSize: 20,
+              color: '#222',
+              fontWeight: 'bold',
+            }}
+          >
+            <Text>IBU: {this.ibu}</Text>
+            <Text>Alcohol: {this.alcohol}</Text>
+            <Stars
+              display={this.stars}
+              spacing={12}
+              count={5}
+              starSize={18}
+              emptyStar={require('../../../assets/icons/emptyStar.png')}
+              backingColor={"#EAEADF"}
+            />
+          </Card>
+          <Button
             onPress={() => {
               sql.rm_beer(sql.db, this.id, () => {
                 this.updateList();
@@ -100,6 +105,7 @@ class BeerDetail extends React.Component {
             text="Remove this beer"
             negative
           />
+        </ScrollView>
       </View>
     );
   }
