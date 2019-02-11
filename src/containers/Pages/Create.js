@@ -7,12 +7,14 @@ import Stars from 'react-native-stars';
 import BeerCarousel from '../BeerCarousel';
 import BeerInput from '../BeerInput';
 import CameraContainer from '../CameraContainer';
+import AutoComplete from '../AutoComplete';
 import sql from '../../models/sqlite';
 import primaryButton from '../../StyleSheet/buttons';
 import container from '../../StyleSheet/container';
 import Button from '../../components/Button';
 import ColorBox from '../../components/ColorBox';
 import mapPicCarousel from '../../utils/mapPicCarousel';
+import { getCorrespondances } from '../../utils/api';
 
 export default class BeerCreate extends Component {
   constructor(props) {
@@ -25,6 +27,9 @@ export default class BeerCreate extends Component {
       this.state = {
       hasCameraPermissions: null,
       isUsingCamera: false,
+      data: [],
+      namePosition: [],
+      modify: true,
       ...beer,
       };
       this.isNewBeer = false;
@@ -41,6 +46,9 @@ export default class BeerCreate extends Component {
         ibu: 0,
         alcohol: 0.0,
         stars: 3,
+        modify: true,
+        data: [],
+        namePosition: [],
         hasCameraPermissions: null,
         isUsingCamera: false
       };
@@ -68,7 +76,23 @@ export default class BeerCreate extends Component {
   onChangeValue = (value, name) => {
     let newState = {};
     newState[name] = value;
-    this.setState(newState);
+    if (name === 'name') {
+      if (value.length === 0) {
+        newState.data = [];
+        newState.modify = true;
+        this.setState(newState);
+      }
+      else if (value.length % 3 === 0) {
+        getCorrespondances(value).then(data => {
+          newState.data = data;
+          newState.modify = true;
+          this.setState(newState);
+        });
+      }
+    }
+    else {
+      this.setState(newState);
+    }
   }
 
   onPutBeer = (event) => {
@@ -127,18 +151,47 @@ export default class BeerCreate extends Component {
     );
   }
 
+  nameRenderedCallback = e => {
+    this.nameView.measureInWindow((x, y, width, height) => {
+      this.setState({
+        namePosition: [x, y],
+      })
+    });
+  }
+
+  onSelection = elem => {
+    this.setState({
+      name: elem.name,
+      ibu: elem.ibu,
+      alcohol: elem.alcohol,
+      data: [],
+      modify: false,
+    });
+  }
+
   render() {
     let camera = this.renderCamera();
     return (
       <View style={styles.container}>
         {camera}
         <ScrollView>
-          <BeerInput
-            value={this.state.name}
-            onChangeText={this.onChangeValue}
-            label="Name:"
-            name="name"
-          />
+          <View ref={ref => this.nameView = ref} onLayout={this.nameRenderedCallback}>
+            <BeerInput
+              value={this.state.name}
+              onChangeText={this.onChangeValue}
+              label="Name:"
+              name="name"
+              modify={this.state.modify}
+            />
+          </View>
+          {this.state.data.length > 0 &&
+            <AutoComplete
+              data={this.state.data}
+              position={this.state.namePosition}
+              onSelection={this.onSelection}
+              style={styles.autocomplete}
+            />
+          }
 
           <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
             <View>
@@ -156,6 +209,7 @@ export default class BeerCreate extends Component {
                 onChangeText={this.onChangeValue}
                 label="IBU:"
                 name="ibu"
+                modify={this.state.modify}
               />
             </View>
 
@@ -165,6 +219,7 @@ export default class BeerCreate extends Component {
                 onChangeText={this.onChangeValue}
                 label="Alcohol:"
                 name="alcohol"
+                modify={this.state.modify}
               />
             </View>
           </View>
@@ -174,6 +229,7 @@ export default class BeerCreate extends Component {
             onChangeText={this.onChangeValue}
             label="Brewery:"
             name="brewery"
+            modify={this.state.modify}
           />
 
           <BeerInput
@@ -181,6 +237,7 @@ export default class BeerCreate extends Component {
             onChangeText={this.onChangeValue}
             label="Type:"
             name="type"
+            modify={this.state.modify}
           />
 
           <View style={{marginBottom: 20, marginTop: 20}}>
@@ -236,6 +293,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  autocomplete: {
+    marginLeft: 20,
+    marginRight: 20,
+  }
 });
 
 BeerCreate.propTypes = {

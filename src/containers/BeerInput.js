@@ -22,6 +22,15 @@ export default class BeerInput extends PureComponent {
     this.state.onChangeText(value, this.state.name);
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.value !== prevState.value && nextProps.modify === false) {
+      return {
+        value: nextProps.value,
+      }
+    }
+    return null;
+  }
+
   render() {
     return (
       <View>
