@@ -3,7 +3,7 @@
     "sdkVersion": "29.0.0",
     "name": "BeerIsGood",
     "icon": "assets/icons/beer128.png",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "slug": "beer-is-good",
     "android": {
       "package": "com.ilphrin.beerisgood"
