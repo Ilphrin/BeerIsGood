@@ -9,6 +9,8 @@ export default class BeerInput extends PureComponent {
 
     this.state = {
       onChangeText: this.props.onChangeText,
+      onFocus: this.props.onFocus,
+      onBlur: this.props.onBlur,
       value: this.props.value,
       label: this.props.label,
       name: this.props.name,
@@ -40,6 +42,8 @@ export default class BeerInput extends PureComponent {
         <FormInput
           value={`${this.state.value}`}
           onChangeText={this.onChangeText}
+          onFocus={this.state.onFocus}
+          onBlur={this.state.onBlur}
         />
       </View>
     );

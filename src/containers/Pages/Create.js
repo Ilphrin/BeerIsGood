@@ -30,6 +30,7 @@ export default class BeerCreate extends Component {
       data: [],
       namePosition: [],
       modify: true,
+      nameFocus: false,
       ...beer,
       };
       this.isNewBeer = false;
@@ -47,6 +48,7 @@ export default class BeerCreate extends Component {
         alcohol: 0.0,
         stars: 3,
         modify: true,
+        nameFocus: false,
         data: [],
         namePosition: [],
         hasCameraPermissions: null,
@@ -169,6 +171,20 @@ export default class BeerCreate extends Component {
     });
   }
 
+  onNameFocus = () => {
+    console.log('Focus');
+    this.setState({
+      nameFocus: true,
+    });
+  }
+
+  onNameBlur = () => {
+    console.log('Blur');
+    this.setState({
+      nameFocus: false,
+    });
+  }
+
   render() {
     let camera = this.renderCamera();
     return (
@@ -182,9 +198,11 @@ export default class BeerCreate extends Component {
               label="Name:"
               name="name"
               modify={this.state.modify}
+              onBlur={this.onNameBlur}
+              onFocus={this.onNameFocus}
             />
           </View>
-          {this.state.data.length > 0 &&
+          {this.state.data.length > 0 && this.state.nameFocus &&
             <AutoComplete
               data={this.state.data}
               position={this.state.namePosition}

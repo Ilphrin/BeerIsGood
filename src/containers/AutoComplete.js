@@ -11,7 +11,6 @@ class AutoComplete extends React.PureComponent {
       data: [],
     };
 
-    console.log(props.position);
     this.styles = StyleSheet.create({
       container: {
         position: 'absolute',
