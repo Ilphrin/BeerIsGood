@@ -13,13 +13,12 @@ class AutoComplete extends React.PureComponent {
 
     this.styles = StyleSheet.create({
       container: {
-        position: 'absolute',
         width: '90%',
         backgroundColor: '#fff',
         padding: 5,
         borderLeftWidth: 2,
-        borderLeftColor: '#F9C546',
-        top: props.position[1] - 45, // minus header size
+        borderLeftColor: '#d5bc26',
+        top: -7,
         left: 19,
         zIndex: 10,
       },

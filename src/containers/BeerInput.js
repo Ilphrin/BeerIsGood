@@ -44,6 +44,8 @@ export default class BeerInput extends PureComponent {
           onChangeText={this.onChangeText}
           onFocus={this.state.onFocus}
           onBlur={this.state.onBlur}
+          underlineColorAndroid={'#d5bc26'}
+          ref={(ref) => { this.input = ref; }}
         />
       </View>
     );
