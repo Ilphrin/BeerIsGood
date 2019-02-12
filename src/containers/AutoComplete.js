@@ -17,7 +17,9 @@ class AutoComplete extends React.PureComponent {
         width: '90%',
         backgroundColor: '#fff',
         padding: 5,
-        top: props.position[1] - 44, // minus header size
+        borderLeftWidth: 2,
+        borderLeftColor: '#F9C546',
+        top: props.position[1] - 45, // minus header size
         left: 19,
         zIndex: 10,
       },
