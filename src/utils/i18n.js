@@ -13,6 +13,6 @@ export function strings(name, params = {}) {
   return I18n.t(name, params);
 }
 
-I18n.locale = 'fr'; // Add this for testing purpose
+// I18n.locale = 'fr'; // Add this for testing purpose
 
 export default I18n;
