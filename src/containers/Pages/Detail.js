@@ -8,6 +8,7 @@ import container from '../../StyleSheet/container';
 import { Text, Image, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import BeerCarousel from '../BeerCarousel';
 import mapPicCarousel from '../../utils/mapPicCarousel.js';
+import I18n, { strings } from '../../utils/i18n.js';
 
 const defaultAsset = require('../../../assets/icons/beer128.png');
 const editIcon = require('../../../assets/icons/edit.png');
@@ -84,8 +85,8 @@ class BeerDetail extends React.Component {
               fontWeight: 'bold',
             }}
           >
-            <Text>IBU: {this.ibu}</Text>
-            <Text>Alcohol: {this.alcohol}</Text>
+            <Text>{strings('Beer.ibu')}: {this.ibu}</Text>
+            <Text>{strings('Beer.alcohol')}: {this.alcohol}</Text>
             <Stars
               display={this.stars}
               spacing={12}
@@ -102,7 +103,7 @@ class BeerDetail extends React.Component {
                 this.navigation.goBack();
               });
             }}
-            text="Remove this beer"
+            text={strings('Detail.removeBeer')}
             negative
           />
         </ScrollView>

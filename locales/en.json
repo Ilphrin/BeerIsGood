@@ -1,0 +1,25 @@
+{
+  "List": {
+    "pageTitle": "Beers",
+    "tip": "Tip",
+    "addBeer": "Add a Beer"
+  },
+  "Create": {
+    "editBeer": "Edit a Beer",
+    "createBeer": "Create a Beer",
+    "newPhoto": "Take a new Photo",
+    "takePhoto": "Take!",
+    "finish": "Finish"
+  },
+  "Detail": {
+    "removeBeer": "Delete this beer"
+  },
+  "Beer": {
+    "name": "Name",
+    "srm": "SRM",
+    "ibu": "IBU",
+    "alcohol": "Alcohol",
+    "brewery": "Brewery",
+    "type": "Type"
+  }
+}

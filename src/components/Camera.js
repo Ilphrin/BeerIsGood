@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Button from './Button';
+import { strings } from '../utils/i18n';
 
 const { Camera } = Expo; // eslint-disable-line no-undef
 
@@ -61,7 +62,7 @@ const BCamera = ({
     ) : (
       <Button
         onPress={takePhoto}
-        text="Take!"
+        text={strings('Create.takePhoto')}
         style={{
           position: 'absolute',
           flexDirection: 'row',

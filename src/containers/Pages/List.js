@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, View, Dimensions} from 'react-native';
+import { StyleSheet, ScrollView, View, Dimensions, Text} from 'react-native';
 import PropTypes from 'prop-types';
 import Stars from 'react-native-stars';
 import sql from '../../models/sqlite';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import container from '../../StyleSheet/container';
+import { getTip } from '../../utils/api';
+import I18n, { strings } from '../../utils/i18n.js';
 
 export default class BeerList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      beers: []
+      beers: [],
+      tip: null,
     };
     this.updateList();
+    getTip().then(this.updateTip);
   }
 
   static navigationOptions = {
-    title: 'Beers'
+    title: strings('List.pageTitle')
   }
 
   updateList = () => {
@@ -32,6 +36,12 @@ export default class BeerList extends Component {
         beers: result.rows._array
       });
     })
+  }
+
+  updateTip = (data) => {
+    this.setState({
+      tip: data,
+    });
   }
 
   goToDetail = (elem) => {
@@ -77,6 +87,11 @@ export default class BeerList extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
+          <View style={{ height: 30 }}>
+            {this.state.tip && 
+              <Text style={styles.tips}>{strings('List.tip')}: {this.state.tip[I18n.currentLocale()]}</Text>
+            }
+          </View>
           <View style={styles.list}>
             {beers}
           </View>
@@ -87,7 +102,7 @@ export default class BeerList extends Component {
               updateList: this.updateList
             })
           }}
-          text="Add a Beer" />
+          text={strings('List.addBeer')} />
       </View>
     );
   }
@@ -115,6 +130,12 @@ const styles = StyleSheet.create({
   cardStars: {
     marginBottom: 12.
   },
+  tips: {
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 11,
+    opacity: 0.5,
+  }
 });
 
 BeerList.propTypes = {

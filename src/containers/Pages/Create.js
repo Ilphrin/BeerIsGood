@@ -15,6 +15,7 @@ import Button from '../../components/Button';
 import ColorBox from '../../components/ColorBox';
 import mapPicCarousel from '../../utils/mapPicCarousel';
 import { getCorrespondances } from '../../utils/api';
+import I18n, { strings } from '../../utils/i18n.js';
 
 export default class BeerCreate extends Component {
   constructor(props) {
@@ -69,11 +70,11 @@ export default class BeerCreate extends Component {
   static navigationOptions = ({ navigation }) => {
     if (navigation.state.params.beer !== undefined) {
       return {
-        title: 'Edit Beer',
+        title: strings('Create.editBeer'),
       };
     }
     return {
-      title: 'New Beer',
+      title: strings('Create.createBeer'),
     };
   }
 
@@ -183,7 +184,7 @@ export default class BeerCreate extends Component {
             <BeerInput
               value={this.state.name}
               onChangeText={this.onChangeValue}
-              label="Name:"
+              label={strings('Beer.name')}
               name="name"
               modify={this.state.modify}
             />
@@ -200,7 +201,7 @@ export default class BeerCreate extends Component {
           <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
             <View>
               <FormLabel>
-                SRM:
+                {strings('Beer.srm')}
               </FormLabel>
               <View style={{marginLeft: 20, marginTop: 5, marginBottom: 10}}>
                 <ColorBox onPress={this.onChangeValue} index={this.state.color} />
@@ -211,7 +212,7 @@ export default class BeerCreate extends Component {
               <BeerInput
                 value={this.state.ibu}
                 onChangeText={this.onChangeValue}
-                label="IBU:"
+                label={strings('Beer.ibu')}
                 name="ibu"
                 modify={this.state.modify}
               />
@@ -221,7 +222,7 @@ export default class BeerCreate extends Component {
               <BeerInput
                 value={this.state.alcohol}
                 onChangeText={this.onChangeValue}
-                label="Alcohol:"
+                label={strings('Beer.alcohol')}
                 name="alcohol"
                 modify={this.state.modify}
               />
@@ -231,7 +232,7 @@ export default class BeerCreate extends Component {
           <BeerInput
             value={this.state.brewery}
             onChangeText={this.onChangeValue}
-            label="Brewery:"
+            label={strings('Beer.brewery')}
             name="brewery"
             modify={this.state.modify}
           />
@@ -239,7 +240,7 @@ export default class BeerCreate extends Component {
           <BeerInput
             value={this.state.type}
             onChangeText={this.onChangeValue}
-            label="Type:"
+            label={strings('Beer.type')}
             name="type"
             modify={this.state.modify}
           />
@@ -260,14 +261,14 @@ export default class BeerCreate extends Component {
             <Button
               onPress={this.isUsingCamera}
               style={styles.picButton}
-              text="Take a new Photo!"
+              text={strings('Create.newPhoto')}
             />
           )}
           {this.renderPhotos()}
         </ScrollView>
         <Button
           onPress={this.onPutBeer}
-          text="Finish"/>
+          text={strings('Create.finish')}/>
       </View>
     )
   }

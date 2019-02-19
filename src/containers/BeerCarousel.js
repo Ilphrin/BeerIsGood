@@ -20,7 +20,7 @@ export default class BeerCarousel extends PureComponent {
     }
   }
 
-  _renderItem({ item }) {
+  renderItem({ item }) {
     return (
       <View>
         <Image
@@ -37,7 +37,7 @@ export default class BeerCarousel extends PureComponent {
         <Carousel
           data={this.state.data}
           layout="default"
-          renderItem={this._renderItem}
+          renderItem={this.renderItem}
           sliderWidth={Dimensions.get('window').width}
           itemWidth={200}
           windowSize={3}

@@ -1,0 +1,25 @@
+{
+  "List": {
+    "pageTitle": "Bières",
+    "tip": "Note",
+    "addBeer": "Ajouter une bière"
+  },
+  "Create": {
+    "editBeer": "Éditer une bière",
+    "createBeer": "Créer une bière",
+    "newPhoto": "Prendre une autre photo",
+    "takePhoto": "Prendre la photo!",
+    "finish": "Terminer"
+  },
+  "Detail": {
+    "removeBeer": "Supprimer cette bière"
+  },
+  "Beer": {
+    "name": "Nom",
+    "srm": "SRM",
+    "ibu": "IBU",
+    "alcohol": "Alcool",
+    "brewery": "Brasserie",
+    "type": "Type"
+  }
+}
