@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, View, Dimensions, Text} from 'react-native';
+import { StyleSheet, ScrollView, View, Dimensions, Text, Animated, Easing} from 'react-native';
 import PropTypes from 'prop-types';
 import Stars from 'react-native-stars';
 import sql from '../../models/sqlite';
@@ -16,6 +16,7 @@ export default class BeerList extends Component {
     this.state = {
       beers: [],
       tip: null,
+      fadeAnim: new Animated.Value(0.0),
     };
     this.updateList();
     getTip().then(this.updateTip);
@@ -23,6 +24,17 @@ export default class BeerList extends Component {
 
   static navigationOptions = {
     title: strings('List.pageTitle')
+  }
+
+  componentDidMount() {
+    Animated.timing(
+      this.state.fadeAnim,
+      {
+        toValue: 1.0,
+        duration: 1500,
+        easing: Easing.back(),
+      },
+    ).start();
   }
 
   updateList = () => {
@@ -89,7 +101,7 @@ export default class BeerList extends Component {
         <ScrollView>
           <View style={{ height: 30 }}>
             {this.state.tip && 
-              <Text style={styles.tips}>{strings('List.tip')}: {this.state.tip[I18n.currentLocale()]}</Text>
+              <Animated.Text style={[styles.tips, { opacity: this.state.fadeAnim }]}>{strings('List.tip')}: {this.state.tip[I18n.currentLocale()]}</Animated.Text>
             }
           </View>
           <View style={styles.list}>
