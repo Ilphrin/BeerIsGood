@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, View, Dimensions, Text, Animated, Easing} from 'react-native';
+import { StyleSheet, ScrollView, View, Dimensions, Text, Animated, Easing, Modal} from 'react-native';
 import PropTypes from 'prop-types';
 import Stars from 'react-native-stars';
 import sql from '../../models/sqlite';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import Achievement from '../../components/Achievement';
 import container from '../../StyleSheet/container';
 import { getTip } from '../../utils/api';
 import I18n, { strings } from '../../utils/i18n.js';
@@ -17,6 +18,7 @@ export default class BeerList extends Component {
       beers: [],
       tip: null,
       fadeAnim: new Animated.Value(0.0),
+      achievement: null,
     };
     this.updateList();
     getTip().then(this.updateTip);
@@ -37,7 +39,7 @@ export default class BeerList extends Component {
     ).start();
   }
 
-  updateList = () => {
+  updateList = (achievement) => {
     sql.get_all(sql.db, (transaction, result) => {
       // We need to truncate Alcohol as there is some noise in the decimals
       const beers = result.rows._array;
@@ -47,13 +49,28 @@ export default class BeerList extends Component {
       this.setState({
         beers: result.rows._array
       });
-    })
+    });
+    if (achievement !== undefined) {
+      this.setState({
+        achievement,
+      });
+    }
   }
 
   updateTip = (data) => {
     this.setState({
       tip: data,
     });
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const params = nextProps.navigation.state.params;
+    if (params && params.achievement !== null) {
+      return {
+        achievement: params.achievement,
+      };
+    }
+    return null;
   }
 
   goToDetail = (elem) => {
@@ -98,6 +115,18 @@ export default class BeerList extends Component {
 
     return (
       <View style={styles.container}>
+        {this.state.achievement !== null &&
+          <View>
+            <Achievement
+              onRequestClose={() => {
+                this.setState({
+                  achievement: null,
+                });
+              }}
+              title={this.state.achievement.name}
+            />
+          </View>
+        }
         <ScrollView>
           <View style={{ height: 30 }}>
             {this.state.tip && 

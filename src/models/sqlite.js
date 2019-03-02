@@ -1,6 +1,7 @@
 import { SQLite } from 'expo';
 import { requests, versionRequests, commonReq } from './init/init';
 import packageJSON from '../../package.json';
+import { hasNewAchievement, unlockAchievement } from './achievement';
 
 function defaultErrCallback(transaction, error) {
   console.warn('[ERR] In transaction ', transaction, error);
@@ -10,10 +11,24 @@ function defaultSuccessCallback(transaction, result) {
   console.log(`[LOG] Success in transaction ${JSON.stringify(transaction)} =====> ${JSON.stringify(result)}`);
 }
 
-function request(db, callback, success = () => {}, error = () => {}) {
+function request(db, callback, success, error) {
   db.transaction(callback, error, success);
 }
 
+function getCount(db, countRequest, callback) {
+  request(db, tx => (
+    tx.executeSql(
+      countRequest,
+      [],
+      (t, res) => {
+        callback(res.rows._array[0].c);
+      },
+      (t, err) => {
+        console.error(err);
+      },
+    )
+  ));
+}
 
 function get_all(db, success = defaultSuccessCallback, error = defaultErrCallback) {
   request(db, tx => (
@@ -25,8 +40,21 @@ function new_beer(db, beer, success = defaultSuccessCallback, error = defaultErr
   request(db, tx => (
     tx.executeSql(
       commonReq.newBeer,
-      [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond, beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.stars],
-      success,
+      [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond,
+        beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.stars],
+      async (t, res) => {
+        // We have to compare with previous achievements and check if there is a new one
+        let achievement = await hasNewAchievement(db, 'ADD');
+        getCount(db, commonReq.getBeerCount, (count) => {
+          if (achievement && count >= achievement.value) {
+            unlockAchievement(db, achievement);
+          }
+          else {
+            achievement = null;
+          }
+          success(t, res, achievement);
+        });
+      },
       error,
     )
   ));
@@ -47,8 +75,17 @@ function update_beer(db, beer, success = defaultSuccessCallback, error = default
   request(db, tx => (
     tx.executeSql(
       commonReq.updateBeer,
-      [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond, beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.id, beer.stars],
-      success,
+      [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond,
+        beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.id, beer.stars],
+      async (t, res) => {
+        const achievement = await hasNewAchievement(db, 'MOD');
+        getCount(db, commonReq.getModifiedBeerCount, (count) => {
+          if (achievement && count >= achievement.value) {
+            unlockAchievement(db, achievement);
+          }
+          success(t, res, achievement);
+        });
+      },
       error,
     )
   ));

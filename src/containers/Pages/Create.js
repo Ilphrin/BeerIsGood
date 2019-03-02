@@ -110,9 +110,14 @@ export default class BeerCreate extends Component {
     if (newBeer.pic === undefined) {
       newBeer.pic = newBeer.photo;
     }
-    sqlite_function(sql.db, newBeer, (transaction, result) => {
-      this.updateList();
-      this.props.navigation.navigate('Home');
+    sqlite_function(sql.db, newBeer, (transaction, result, achievement) => {
+      if (achievement !== null) {
+        this.updateList(achievement);
+      }
+      else {
+        this.updateList();
+      }
+      this.props.navigation.goBack();
     });
   }
 
