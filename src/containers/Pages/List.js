@@ -104,7 +104,7 @@ export default class BeerList extends Component {
             spacing={12}
             count={5}
             starSize={12}
-            emptyStar={require('../../../assets/icons/emptyStar.png')}
+            emptyStar={require('../../../assets/icons/noStar.png')}
             backingColor={"#EAEADF"}
           />
         </View>
