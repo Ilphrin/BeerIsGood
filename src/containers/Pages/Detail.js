@@ -92,7 +92,7 @@ class BeerDetail extends React.Component {
               spacing={12}
               count={5}
               starSize={18}
-              emptyStar={require('../../../assets/icons/emptyStar.png')}
+              emptyStar={require('../../../assets/icons/noStar.png')}
               backingColor={"#EAEADF"}
             />
           </Card>
