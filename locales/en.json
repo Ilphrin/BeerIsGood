@@ -21,5 +21,9 @@
     "alcohol": "Alcohol",
     "brewery": "Brewery",
     "type": "Type"
+  },
+  "Achievement": {
+    "congratulations": "Congratulations!",
+    "youWon": "You unlocked"
   }
 }
