@@ -15,7 +15,7 @@ import Button from '../../components/Button';
 import ColorBox from '../../components/ColorBox';
 import mapPicCarousel from '../../utils/mapPicCarousel';
 import { getCorrespondances } from '../../utils/api';
-import I18n, { strings } from '../../utils/i18n.js';
+import { strings } from '../../utils/i18n.js';
 
 export default class BeerCreate extends Component {
   constructor(props) {

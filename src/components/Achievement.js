@@ -10,6 +10,7 @@ import {
   Dimensions,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { strings } from '../../utils/i18n.js';
 
 const source = require('../../assets/icons/Achievement.png');
 
@@ -82,7 +83,7 @@ class Achievement extends React.PureComponent {
                   color: 'white',
                 }}
               >
-                Congratulations!
+                {strings('Achievement.congratulations')}:
               </Text>
             </ImageBackground>
             <Text style={{
@@ -91,7 +92,7 @@ class Achievement extends React.PureComponent {
               textAlign: 'center',
               }}
             >
-              You won the achievement:
+              {strings('Achievement.youWon')}:
             </Text>
             <Text style={{
               textAlign: 'center',
