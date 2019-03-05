@@ -83,7 +83,6 @@ class ColorBox extends React.PureComponent {
 const styleBox = color => StyleSheet.create({
   box: {
     backgroundColor: color,
-    width: 120,
     height: 36,
   },
 });
