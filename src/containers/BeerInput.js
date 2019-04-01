@@ -8,12 +8,7 @@ export default class BeerInput extends PureComponent {
     super(props);
 
     this.state = {
-      onChangeText: this.props.onChangeText,
-      onFocus: this.props.onFocus,
-      onBlur: this.props.onBlur,
       value: this.props.value,
-      label: this.props.label,
-      name: this.props.name,
     };
   }
 
@@ -21,7 +16,7 @@ export default class BeerInput extends PureComponent {
     this.setState({
       value,
     });
-    this.state.onChangeText(value, this.state.name);
+    this.props.onChangeText(value, this.props.name);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -34,18 +29,20 @@ export default class BeerInput extends PureComponent {
   }
 
   render() {
+    const { onChangeText, onFocus, onBlur, value, label, name, ...rest } = this.props;
     return (
       <View>
         <FormLabel>
-          {this.state.label}
+          {label}
         </FormLabel>
         <FormInput
           value={`${this.state.value}`}
           onChangeText={this.onChangeText}
-          onFocus={this.state.onFocus}
-          onBlur={this.state.onBlur}
+          onFocus={onFocus}
+          onBlur={onBlur}
           underlineColorAndroid={'#d5bc26'}
           ref={(ref) => { this.input = ref; }}
+          {...rest}
         />
       </View>
     );

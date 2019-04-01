@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, View, Dimensions, Text, Animated, Easing, Modal} from 'react-native';
+import { StyleSheet, ScrollView, View, Dimensions, Text, Animated, Easing, Modal, TouchableOpacity, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import Stars from 'react-native-stars';
 import sql from '../../models/sqlite';
@@ -9,8 +9,10 @@ import Achievement from '../../components/Achievement';
 import container from '../../StyleSheet/container';
 import { getTip } from '../../utils/api';
 import I18n, { strings } from '../../utils/i18n.js';
+import userIcon from '../../../assets/icons/userIcon.png';
 
 export default class BeerList extends Component {
+
   constructor(props) {
     super(props);
 
@@ -20,12 +22,21 @@ export default class BeerList extends Component {
       fadeAnim: new Animated.Value(0.0),
       achievement: null,
     };
+    this.achievementVisible = false;
     this.updateList();
     getTip().then(this.updateTip);
   }
 
-  static navigationOptions = {
-    title: strings('List.pageTitle')
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: strings('List.pageTitle'),
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.navigate('Connection')}>
+          <Image source={userIcon} style={styles.userIcon} resizeMode="cover" />
+        </TouchableOpacity>
+      ),
+    }
   }
 
   componentDidMount() {
@@ -80,6 +91,13 @@ export default class BeerList extends Component {
     });
   }
 
+  onRequestCloseAchievement = () => {
+    this.achievementVisible = false;
+    this.setState({
+      achievement: null,
+    });
+  }
+
   render() {
     const beers = this.state.beers.map((elem, index) => {
       const title=`${elem.name} - ${elem.brewery}`
@@ -113,38 +131,38 @@ export default class BeerList extends Component {
       // backingColor is set to the same as the background of the app,
       //as transparent is illegal
 
+    if (this.state.achievement) {
+      this.achievementVisible = true;
+    }
+    else {
+      this.achievementVisible = false;
+    }
     return (
-      <View style={styles.container}>
-        {this.state.achievement !== null &&
-          <View>
-            <Achievement
-              onRequestClose={() => {
-                this.setState({
-                  achievement: null,
-                });
-              }}
-              title={this.state.achievement.name}
-            />
-          </View>
-        }
-        <ScrollView>
-          <View style={{ height: 30 }}>
-            {this.state.tip && 
-              <Animated.Text style={[styles.tips, { opacity: this.state.fadeAnim }]}>{strings('List.tip')}: {this.state.tip[I18n.currentLocale()]}</Animated.Text>
-            }
-          </View>
-          <View style={styles.list}>
-            {beers}
-          </View>
-        </ScrollView>
-        <Button
-          onPress={() => {
-            this.props.navigation.navigate('NewBeer', {
-              updateList: this.updateList
-            })
-          }}
-          text={strings('List.addBeer')} />
-      </View>
+        <View style={styles.container}>
+          <ScrollView>
+            <View style={{ height: 30 }}>
+              {this.state.tip && 
+                <Animated.Text style={[styles.tips, { opacity: this.state.fadeAnim }]}>{strings('List.tip')}: {this.state.tip[I18n.currentLocale()]}</Animated.Text>
+              }
+            </View>
+            <View style={styles.list}>
+              {beers}
+            </View>
+          </ScrollView>
+          <Button
+            onPress={() => {
+              this.props.navigation.navigate('NewBeer', {
+                updateList: this.updateList
+              })
+            }}
+            text={strings('List.addBeer')}
+          />
+          <Achievement
+            achievement={this.state.achievement}
+            visible={this.achievementVisible}
+            onRequestClose={this.onRequestCloseAchievement}
+          />
+        </View>
     );
   }
 }
@@ -176,6 +194,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 11,
     opacity: 0.5,
+  },
+  userIcon: {
+    height: 32,
+    width: 32,
+    marginRight: 10,
   }
 });
 

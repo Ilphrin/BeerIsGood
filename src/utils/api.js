@@ -23,7 +23,39 @@ function getTip() {
   });
 }
 
+function signup(email, password) {
+  return new Promise((resolve, reject) => {
+    axios.post(`${url}/user/signup`, {
+      email,
+      password,
+    })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+function signin(email, password) {
+  return new Promise((resolve, reject) => {
+    axios.post(`${url}/user/signin`, {
+      email,
+      password,
+    })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 module.exports = {
   getCorrespondances,
   getTip,
+  signin,
+  signup,
 };

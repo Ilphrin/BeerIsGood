@@ -25,5 +25,8 @@
   "Achievement": {
     "congratulations": "Félicitations!",
     "youWon": "Vous avez débloqué"
+  },
+  "Connection": {
+    "title": "Connexion"
   }
 }
