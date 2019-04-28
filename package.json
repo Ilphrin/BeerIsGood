@@ -10,6 +10,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.1",
+    "husky": "^2.1.0",
     "jest": "^23.4.2",
     "jest-expo": "~29.0.0",
     "jest-react-native": "^18.0.0",
@@ -37,13 +38,19 @@
     "react-native-camera": "^1.1.4",
     "react-native-elements": "^0.19.1",
     "react-native-i18n": "^2.0.15",
-    "react-native-material-cards": "^1.0.9",
     "react-native-scripts": "^1.14.0",
     "react-native-snap-carousel": "^3.7.5",
     "react-native-sqlite-storage": "^3.3.6",
     "react-native-stars": "^1.1.5",
+    "react-native-testing-library": "^1.7.0",
     "react-navigation": "^2.17.0",
     "react-redux": "^5.1.1",
     "redux": "^4.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
   }
 }

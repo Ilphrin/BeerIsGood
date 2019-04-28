@@ -7,8 +7,7 @@ import Button from '../../components/Button';
 import container from '../../StyleSheet/container';
 import { Text, Image, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import BeerCarousel from '../BeerCarousel';
-import mapPicCarousel from '../../utils/mapPicCarousel.js';
-import I18n, { strings } from '../../utils/i18n.js';
+import { strings } from '../../utils/i18n.js';
 
 const defaultAsset = require('../../../assets/icons/beer128.png');
 const editIcon = require('../../../assets/icons/edit.png');
@@ -71,7 +70,8 @@ class BeerDetail extends React.Component {
         <ScrollView>
           {!this.source && (
             <BeerCarousel
-              data={mapPicCarousel(this.pics[0], this.pics[1], this.pics[2])}
+              data={[this.pics[0], this.pics[1], this.pics[2]]}
+              immutable
             />
           )}
           <Card

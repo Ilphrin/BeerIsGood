@@ -9,7 +9,8 @@
     "createBeer": "Create a Beer",
     "newPhoto": "Take a new Photo",
     "takePhoto": "Take!",
-    "finish": "Finish"
+    "finish": "Finish",
+    "nameError": "Without a name, how will you find it again?",
   },
   "Detail": {
     "removeBeer": "Delete this beer"

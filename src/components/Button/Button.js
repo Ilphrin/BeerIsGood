@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import { primaryButton, negativeButton } from '../StyleSheet/buttons';
+import { primaryButton, negativeButton } from '../../StyleSheet/buttons';
 
 const Button = ({
   onPress, style, negative, text,

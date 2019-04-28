@@ -3,6 +3,8 @@ import { StyleSheet, View, PermissionsAndroid, Dimensions } from 'react-native';
 const { Permissions, FileSystem } = Expo;
 import PropTypes from 'prop-types';
 import BCamera from '../components/Camera.js';
+import { strings } from '../utils/i18n';
+import Button from '../components/Button';
 
 export default class CameraContainer extends Component {
   constructor(props) {
@@ -11,6 +13,7 @@ export default class CameraContainer extends Component {
     this.state = {
       hasCameraPermissions: this.requestCameraPermission(),
       pictureLoading: false,
+      isUsingCamera: false,
     }
     this.camera = null;
     this.photoFolder = `${FileSystem.documentDirectory}photos/`;
@@ -19,9 +22,6 @@ export default class CameraContainer extends Component {
   async requestCameraPermission() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     return status === 'granted';
-  }
-
-  onCameraReady = () => {
   }
 
   takePhoto = async () => {
@@ -51,14 +51,32 @@ export default class CameraContainer extends Component {
       this.props.onPictureTaken(filename);
     }).catch(e => {
       console.error(e);
+    }).finally(() => {
+      this.setState(prevSate => ({
+        ...prevSate,
+        isUsingCamera: !prevSate.isUsingCamera,
+        pictureLoading: false,
+      }));
+
     });
   }
 
   onQuit = () => {
-    this.props.onPictureTaken('');
+    this.isUsingCamera();
+  }
+
+  isUsingCamera = () => {
+    this.setState(prevSate => ({
+      ...prevSate,
+      isUsingCamera: !prevSate.isUsingCamera,
+    }))
   }
 
   render() {
+    if (!this.state.isUsingCamera) {
+      return <Button onPress={this.isUsingCamera} text={strings('Create.newPhoto')} />
+    }
+
     if (this.state.hasCameraPermissions) {
       return (
         <BCamera
@@ -66,7 +84,7 @@ export default class CameraContainer extends Component {
           onCameraReady={this.onCameraReady}
           takePhoto={this.takePhoto}
           onQuit={this.onQuit}
-          getRef={(ref) => { this.camera = ref; }}
+          getRef={(ref) => { this.camera = ref; }}  
           pictureLoading={this.state.pictureLoading}
         />
       )

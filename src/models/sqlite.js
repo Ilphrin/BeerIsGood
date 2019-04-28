@@ -3,12 +3,10 @@ import { requests, versionRequests, commonReq } from './init/init';
 import packageJSON from '../../package.json';
 import { hasNewAchievement, unlockAchievement } from './achievement';
 
-function defaultErrCallback(transaction, error) {
-  console.warn('[ERR] In transaction ', transaction, error);
+function defaultErrCallback() {
 }
 
-function defaultSuccessCallback(transaction, result) {
-  console.log(`[LOG] Success in transaction ${JSON.stringify(transaction)} =====> ${JSON.stringify(result)}`);
+function defaultSuccessCallback() {
 }
 
 function request(db, callback, success, error) {
@@ -48,8 +46,7 @@ function new_beer(db, beer, success = defaultSuccessCallback, error = defaultErr
         getCount(db, commonReq.getBeerCount, (count) => {
           if (achievement && count >= achievement.value) {
             unlockAchievement(db, achievement);
-          }
-          else {
+          } else {
             achievement = null;
           }
           success(t, res, achievement);
@@ -72,16 +69,19 @@ function rm_beer(db, beerId, success = defaultSuccessCallback, error = defaultEr
 }
 
 function update_beer(db, beer, success = defaultSuccessCallback, error = defaultErrCallback) {
+  console.log(beer);
   request(db, tx => (
     tx.executeSql(
       commonReq.updateBeer,
       [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond,
-        beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.id, beer.stars],
+        beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.stars, beer.id],
       async (t, res) => {
-        const achievement = await hasNewAchievement(db, 'MOD');
+        let achievement = await hasNewAchievement(db, 'MOD');
         getCount(db, commonReq.getModifiedBeerCount, (count) => {
           if (achievement && count >= achievement.value) {
             unlockAchievement(db, achievement);
+          } else {
+            achievement = null;
           }
           success(t, res, achievement);
         });

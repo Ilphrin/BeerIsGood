@@ -4,8 +4,6 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import ColorBox from './ColorBox';
-import BeerCarousel from '../containers/BeerCarousel';
-import mapPicCarousel from '../utils/mapPicCarousel';
 
 const styles = StyleSheet.create({
   container: {

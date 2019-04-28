@@ -84,7 +84,7 @@ BCamera.propTypes = {
     PropTypes.number,
     PropTypes.object,
   ]),
-  onCameraReady: PropTypes.func.isRequired,
+  onCameraReady: PropTypes.func,
   takePhoto: PropTypes.func.isRequired,
   getRef: PropTypes.func.isRequired,
   pictureLoading: PropTypes.bool.isRequired,
@@ -93,6 +93,7 @@ BCamera.propTypes = {
 
 BCamera.defaultProps = {
   onRequestClose: () => {},
+  onCameraReady: () => {},
   style: {},
 };
 

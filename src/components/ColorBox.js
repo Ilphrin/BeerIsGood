@@ -28,51 +28,38 @@ class ColorBox extends React.PureComponent {
       ['#030403', 45, 'Imperial Stout'],
     ];
 
-    let index = this.props.index;
-    if (index < 0 || index >= this.SRM.length) {
-      index = 0;
-    }
-
     this.state = {
-      index,
-      text: this.generateText(index),
-      immutable: this.props.immutable,
-      onPress: this.props.onPress,
+      value: this.props.value,
+      text: this.generateText(this.props.value),
     };
   }
 
   changeColor = () => {
-    if (!this.state.immutable) {
-      let newIndex = this.state.index;
-      if (newIndex === this.SRM.length - 1) {
-        newIndex = 0;
+    if (!this.props.immutable) {
+      let newValue = this.state.value;
+      if (newValue === this.SRM.length - 1) {
+        newValue = 0;
       }
       else {
-        newIndex += 1;
+        newValue += 1;
       }
       this.setState({
-        index: newIndex,
-        text: this.generateText(newIndex),
+        value: newValue,
+        text: this.generateText(newValue),
       });
-      this.state.onPress(newIndex, "color");
-    }    
+      this.props.onChange(newValue);
+    }
   }
 
-  generateText = (index = this.index) => {
-    return `${this.SRM[index][1]} - ${this.SRM[index][2]}`;
+  generateText = (value) => {
+    return `${this.SRM[value][1]} - ${this.SRM[value][2]}`;
   }
 
   render() {
-    const changeColorOnClick = () => {
-      if (this.state.immutable === false) {
-        this.changeColor();
-        this.state.onPress(this.state.index);
-      }
-    }
     return (
       <View>
         <TouchableWithoutFeedback onPress={this.changeColor}>
-          <View style={styleBox(this.SRM[this.state.index][0]).box} />
+          <View style={styleBox(this.SRM[this.state.value][0]).box} />
         </TouchableWithoutFeedback>
         <Text>{this.state.text}</Text>
       </View>
@@ -96,13 +83,11 @@ const style = StyleSheet.create({
 ColorBox.propTypes = {
   index: PropTypes.number,
   immutable: PropTypes.bool,
-  onPress: PropTypes.func,
 };
 
 ColorBox.defaultProps = {
-  index: 0,
+  value: 0,
   immutable: false,
-  onPress: null,
 };
 
 export default ColorBox;

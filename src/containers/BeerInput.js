@@ -12,13 +12,6 @@ export default class BeerInput extends PureComponent {
     };
   }
 
-  onChangeText = (value) => {
-    this.setState({
-      value,
-    });
-    this.props.onChangeText(value, this.props.name);
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.value !== prevState.value && nextProps.modify === false) {
       return {
@@ -29,19 +22,18 @@ export default class BeerInput extends PureComponent {
   }
 
   render() {
-    const { onChangeText, onFocus, onBlur, value, label, name, ...rest } = this.props;
+    const {
+      value, label, inputRef, ...rest
+    } = this.props;
     return (
       <View>
         <FormLabel>
           {label}
         </FormLabel>
         <FormInput
-          value={`${this.state.value}`}
-          onChangeText={this.onChangeText}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          underlineColorAndroid={'#d5bc26'}
-          ref={(ref) => { this.input = ref; }}
+          value={`${value}`}
+          underlineColorAndroid="#d5bc26"
+          ref={inputRef}
           {...rest}
         />
       </View>
@@ -50,13 +42,11 @@ export default class BeerInput extends PureComponent {
 }
 
 BeerInput.propTypes = {
-  onChangeText: PropTypes.func.isRequired,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
   label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
 };
 
 BeerInput.defaultProps = {

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { View, Image, Dimensions } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
+import CameraContainer from './CameraContainer';
+
 export default class BeerCarousel extends PureComponent {
   constructor(props) {
     super(props);
@@ -12,20 +14,23 @@ export default class BeerCarousel extends PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data.length !== this.state.data.length) {
-      this.setState({
-        data: nextProps.data,
-      });
+  onPictureTaken = (uri) => {
+    const length = this.state.data.length;
+
+    if (length < this.props.max) {
+      this.setState(prevState => ({
+        data: [...prevState.data, uri]
+      }));
+      this.props.onChange(this.state.data);
     }
   }
 
-  renderItem({ item }) {
+  renderItem = ({ item }) => {
     return (
       <View>
         <Image
           style={{ width: 200, height: 200 }}
-          source={{ uri: item.illustration }}
+          source={{ uri: item }}
         />
       </View>
     );
@@ -33,25 +38,33 @@ export default class BeerCarousel extends PureComponent {
 
   render() {
     return (
-      <View style={{ marginBottom: 20 }}>
-        <Carousel
-          data={this.state.data}
-          layout="default"
-          renderItem={this.renderItem}
-          sliderWidth={Dimensions.get('window').width}
-          itemWidth={200}
-          windowSize={3}
-          ref={(c) => { this.carousel = c; }}
-        />
+      <View>
+        <View style={{ marginBottom: 20 }}>
+          <Carousel
+            data={this.state.data}
+            layout="default"
+            renderItem={this.renderItem}
+            sliderWidth={Dimensions.get('window').width}
+            itemWidth={200}
+            windowSize={3}
+          />
+        </View>
+        {!this.props.immutable && (
+          <View style={{marginVertical: 20}}>
+            <CameraContainer onPictureTaken={this.onPictureTaken} />
+          </View>
+        )}
       </View>
     );
   }
 }
 
 BeerCarousel.propTypes = {
-  data: PropTypes.array,
+  onChange: PropTypes.func,
+  max: PropTypes.number,
 };
 
 BeerCarousel.defaultProps = {
+  max: 3,
   data: [],
 };
