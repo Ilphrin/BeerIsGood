@@ -8,5 +8,8 @@
         ],
         "no-underscore-dangle": 0,
         "react/destructuring-assignment": "never"
+    },
+    "env": {
+        "jest": true
     }
 }
