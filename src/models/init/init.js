@@ -27,7 +27,7 @@ const commonReq = {
   getAllBeers: 'SELECT * FROM beers;',
   newBeer: 'INSERT INTO beers (name, type, brewery, country, pic, picsecond, picthird, color, ibu, alcohol, stars) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
   rmBeer: 'DELETE FROM beers WHERE id=?',
-  updateBeer: 'UPDATE beers SET name=?, type=?, brewery=?, country=? pic=?, picsecond=?, picthird=?, color=?, ibu=?, alcohol=?, stars=?, modified=1 WHERE id=?;',
+  updateBeer: 'UPDATE beers SET name=?, type=?, brewery=?, country=?, pic=?, picsecond=?, picthird=?, color=?, ibu=?, alcohol=?, stars=?, modified=1 WHERE id=?;',
   getVersion: 'SELECT * FROM version;',
   addFirstVersion: 'INSERT INTO version (version) VALUES (?);',
   updateVersion: 'UPDATE version SET version=? WHERE id=?',

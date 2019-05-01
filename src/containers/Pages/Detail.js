@@ -5,12 +5,13 @@ import sql from '../../models/sqlite';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import container from '../../StyleSheet/container';
-import { Text, Image, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Text, Image, View, TouchableOpacity, StyleSheet, ScrollView, Linking, TouchableWithoutFeedback } from 'react-native';
 import BeerCarousel from '../BeerCarousel';
 import { strings } from '../../utils/i18n.js';
 
 const defaultAsset = require('../../../assets/icons/beer128.png');
 const editIcon = require('../../../assets/icons/edit.png');
+const twitterIcon = require('../../../assets/icons/twitter.png');
 
 const DetailTitle = (props) => {
   return (
@@ -28,7 +29,7 @@ const DetailTitle = (props) => {
       >
         <Image
           source={editIcon}
-          style={styles.editIcon}
+          style={styles.icon}
         />
       </TouchableOpacity>
     </View>
@@ -39,6 +40,8 @@ class BeerDetail extends React.Component {
   constructor({ navigation }) {
     super()
     const { params } = navigation.state;
+    this.brewery = params.beer.brewery;
+    this.beerName = params.beer.name;
     this.navigation = navigation;
     this.id = params.beer.id;
     this.type = params.beer.type;
@@ -50,6 +53,7 @@ class BeerDetail extends React.Component {
     this.pics = [params.beer.pic, params.beer.picsecond, params.beer.picthird];
     this.source = this.pics[0] ? null : defaultAsset;
     this.stars = params.beer.stars;
+    this.country = params.beer.country;
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -62,6 +66,10 @@ class BeerDetail extends React.Component {
       />,
     };
   };
+
+  handleTwitter = () => {
+    Linking.openURL(`https://twitter.com/intent/tweet?text=I%20just%20tried%20the%20${this.beerName}%20beer%20from%20the%20${this.brewery}%20brewery!\n%40BeerIsGoodApp`);
+  }
 
   render() {
     return (
@@ -84,8 +92,18 @@ class BeerDetail extends React.Component {
               fontWeight: 'bold',
             }}
           >
-            <Text>{strings('Beer.ibu')}: {this.ibu}</Text>
-            <Text>{strings('Beer.alcohol')}: {this.alcohol}</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View>
+                <Text>{strings('Beer.ibu')}: {this.ibu}</Text>
+                <Text>{strings('Beer.alcohol')}: {this.alcohol}</Text>
+                <Text>{strings('Beer.country')}: {this.country}</Text>
+              </View>
+              <View>
+                <TouchableWithoutFeedback onPress={this.handleTwitter}>
+                  <Image source={twitterIcon} style={[styles.icon, { marginRight: 10}]} />
+                </TouchableWithoutFeedback>
+              </View>
+            </View>
             <Stars
               display={this.stars}
               spacing={12}
@@ -120,7 +138,7 @@ BeerDetail.propTypes = {
 
 const styles = StyleSheet.create({
   container,
-  editIcon: {
+  icon: {
     width: 32,
     height: 32,
   },

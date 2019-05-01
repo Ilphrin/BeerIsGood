@@ -79,7 +79,6 @@ const style = StyleSheet.create({
 });
 
 ColorBox.propTypes = {
-  index: PropTypes.number,
   immutable: PropTypes.bool,
 };
 

@@ -127,7 +127,7 @@ export default class BeerCreate extends Component {
         this.updateList();
       }
       this.props.navigation.navigate('Home');
-    });
+    }, err => { console.log(err)});
   }
 
   onSelection = elem => {
