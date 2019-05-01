@@ -19,13 +19,15 @@ const versionRequests = [
   [3, 'INSERT INTO achievements (name, action) VALUES ("Oups, sorry!", "MOD");'],
   [3, 'INSERT INTO achievements (name, action, value) VALUES ("I am so clumsy", "MOD", 5);'],
   [3, 'INSERT INTO achievements (name, action, value) VALUES ("What a mess", "MOD", 10);'],
+  [4, 'ALTER COLUMN color default 0;'],
+  [5, 'ALTER TABLE beers ADD COLUMN country TEXT;'],
 ];
 
 const commonReq = {
   getAllBeers: 'SELECT * FROM beers;',
-  newBeer: 'INSERT INTO beers (name, type, brewery, pic, picsecond, picthird, color, ibu, alcohol, stars) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+  newBeer: 'INSERT INTO beers (name, type, brewery, country, pic, picsecond, picthird, color, ibu, alcohol, stars) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
   rmBeer: 'DELETE FROM beers WHERE id=?',
-  updateBeer: 'UPDATE beers SET name=?, type=?, brewery=?, pic=?, picsecond=?, picthird=?, color=?, ibu=?, alcohol=?, stars=?, modified=1 WHERE id=?;',
+  updateBeer: 'UPDATE beers SET name=?, type=?, brewery=?, country=? pic=?, picsecond=?, picthird=?, color=?, ibu=?, alcohol=?, stars=?, modified=1 WHERE id=?;',
   getVersion: 'SELECT * FROM version;',
   addFirstVersion: 'INSERT INTO version (version) VALUES (?);',
   updateVersion: 'UPDATE version SET version=? WHERE id=?',

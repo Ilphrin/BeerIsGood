@@ -19,7 +19,6 @@ class Achievement extends React.PureComponent {
     if (!this.props.visible) {
       return null;
     }
-    console.log(this.props.achievement);
     return (
       <Modal
         animationType="slide"

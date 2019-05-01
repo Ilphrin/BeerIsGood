@@ -102,7 +102,7 @@ export default class BeerList extends Component {
     const beers = this.state.beers.map((elem, index) => {
       const title=`${elem.name} - ${elem.brewery}`
       const source = elem.pic !== '' && elem.pic ? { uri: elem.pic } : require('../../../assets/icons/beer.png');
-      console.log(elem);
+      const color = elem.color || 0;
       return (
         <View
           key={elem.id}
@@ -114,7 +114,7 @@ export default class BeerList extends Component {
               source={source}
               title={title}
               type={elem.type}
-              color={elem.color}
+              color={color}
               onPress={this.goToDetail.bind(this, elem)}
             />
           </View>

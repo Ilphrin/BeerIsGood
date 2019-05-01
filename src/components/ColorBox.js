@@ -26,7 +26,6 @@ class ColorBox extends React.PureComponent {
       ['#080707', 35, 'Foreign Stout'],
       ['#030403', 45, 'Imperial Stout'],
     ];
-
     this.state = {
       value: this.props.value || 0,
       text: this.generateText(this.props.value || 0),
@@ -85,7 +84,6 @@ ColorBox.propTypes = {
 };
 
 ColorBox.defaultProps = {
-  value: 0,
   immutable: false,
 };
 

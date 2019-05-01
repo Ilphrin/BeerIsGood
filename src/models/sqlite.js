@@ -38,7 +38,7 @@ function new_beer(db, beer, success = defaultSuccessCallback, error = defaultErr
   request(db, tx => (
     tx.executeSql(
       commonReq.newBeer,
-      [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond,
+      [beer.name, beer.type, beer.brewery, beer.country, beer.pic, beer.picsecond,
         beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.stars],
       async (t, res) => {
         // We have to compare with previous achievements and check if there is a new one
@@ -72,7 +72,7 @@ function update_beer(db, beer, success = defaultSuccessCallback, error = default
   request(db, tx => (
     tx.executeSql(
       commonReq.updateBeer,
-      [beer.name, beer.type, beer.brewery, beer.pic, beer.picsecond,
+      [beer.name, beer.type, beer.brewery, beer.country, beer.pic, beer.picsecond,
         beer.picthird, beer.color, beer.ibu, beer.alcohol, beer.stars, beer.id],
       async (t, res) => {
         let achievement = await hasNewAchievement(db, 'MOD');

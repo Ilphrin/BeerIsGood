@@ -34,19 +34,19 @@ export default class BeerCreate extends Component {
       },
       {
         label: "IBU",
-        initialValue: 0,
         name: "ibu",
         type: "Number",
       },
       {
         label: 'Alcohol',
-        initialValue: 0.0,
+        initialValue: '0.0',
         name: 'alcohol',
         type: 'Number',
       },
       {
         name: 'color',
         type: 'Color',
+        initialValue: 0,
       },
       {
         label: 'Brewery',
@@ -56,6 +56,11 @@ export default class BeerCreate extends Component {
       {
         label: 'Type',
         name: 'type',
+        type: 'Text',
+      },
+      {
+        label: 'Country',
+        name: 'country',
         type: 'Text',
       },
       {
