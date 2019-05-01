@@ -6,7 +6,6 @@ import {
   Text,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import ExtraPropTypes from 'react-extra-prop-types';
 
 class ColorBox extends React.PureComponent {
   constructor(props) {
@@ -29,8 +28,8 @@ class ColorBox extends React.PureComponent {
     ];
 
     this.state = {
-      value: this.props.value,
-      text: this.generateText(this.props.value),
+      value: this.props.value || 0,
+      text: this.generateText(this.props.value || 0),
     };
   }
 
