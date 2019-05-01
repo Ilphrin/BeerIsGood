@@ -21,7 +21,8 @@
     "ibu": "IBU",
     "alcohol": "Alcohol",
     "brewery": "Brewery",
-    "type": "Type"
+    "type": "Type",
+    "country": "Country",
   },
   "Achievement": {
     "congratulations": "Congratulations!",

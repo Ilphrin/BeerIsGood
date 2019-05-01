@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 
@@ -7,8 +7,6 @@ import BeerCreate from './src/containers/Pages/Create';
 import BeerDetail from './src/containers/Pages/Detail';
 import Connection from './src/containers/Pages/Connection';
 import store from './store';
-
-console.disableYellowBox = true;
 
 const RootStack = createStackNavigator(
   {
@@ -25,12 +23,10 @@ const RootStack = createStackNavigator(
   },
 );
 
-export default class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <RootStack />
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <RootStack />
+  </Provider>
+);
+
+export default App;

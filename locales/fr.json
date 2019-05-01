@@ -21,7 +21,8 @@
     "ibu": "IBU",
     "alcohol": "Alcool",
     "brewery": "Brasserie",
-    "type": "Type"
+    "type": "Type",
+    "country": "Pays",
   },
   "Achievement": {
     "congratulations": "Félicitations!",
