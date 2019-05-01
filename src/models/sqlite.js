@@ -69,7 +69,6 @@ function rm_beer(db, beerId, success = defaultSuccessCallback, error = defaultEr
 }
 
 function update_beer(db, beer, success = defaultSuccessCallback, error = defaultErrCallback) {
-  console.log(beer);
   request(db, tx => (
     tx.executeSql(
       commonReq.updateBeer,

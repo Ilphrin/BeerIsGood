@@ -102,6 +102,7 @@ export default class BeerList extends Component {
     const beers = this.state.beers.map((elem, index) => {
       const title=`${elem.name} - ${elem.brewery}`
       const source = elem.pic !== '' && elem.pic ? { uri: elem.pic } : require('../../../assets/icons/beer.png');
+      console.log(elem);
       return (
         <View
           key={elem.id}

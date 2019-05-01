@@ -16,6 +16,7 @@ export default class BeerCreate extends Component {
 
     this.updateList = this.props.navigation.getParam('updateList');
     this.beer = props.navigation.getParam('beer');
+    this.isNewBeer = [null, undefined].includes(this.beer);
 
     this.state = {
       modify: true,
@@ -64,7 +65,7 @@ export default class BeerCreate extends Component {
       {
         name: 'stars',
         type: 'Star',
-        value: 0,
+        initialValue: 1,
       },
     ]
 

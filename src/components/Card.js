@@ -60,13 +60,12 @@ const Card = ({
         <Text style={titleStyle}>{title}</Text>
         <Text style={styles.type}>{type}</Text>
         <View style={styles.colorBox}>
-          {color !== null
-          && (
+          {color !== null && (
             <ColorBox
-              index={color}
+              value={color}
               immutable
-            />)
-          }
+            />
+          )}
         </View>
         {children}
       </View>

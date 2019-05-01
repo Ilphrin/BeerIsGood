@@ -37,8 +37,7 @@ const DetailTitle = (props) => {
 
 class BeerDetail extends React.Component {
   constructor({ navigation }) {
-    super();
-
+    super()
     const { params } = navigation.state;
     this.navigation = navigation;
     this.id = params.beer.id;

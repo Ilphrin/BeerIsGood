@@ -8,7 +8,7 @@ export default class BeerInput extends PureComponent {
     super(props);
 
     this.state = {
-      value: this.props.value,
+      value: this.props.initialValue,
     };
   }
 
@@ -16,7 +16,7 @@ export default class BeerInput extends PureComponent {
     if (nextProps.value !== prevState.value && nextProps.modify === false) {
       return {
         value: nextProps.value,
-      }
+      };
     }
     return null;
   }
@@ -47,7 +47,9 @@ BeerInput.propTypes = {
     PropTypes.number,
   ]).isRequired,
   label: PropTypes.string.isRequired,
+  initialValue: PropTypes.string,
 };
 
 BeerInput.defaultProps = {
+  initialValue: '',
 };

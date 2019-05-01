@@ -164,7 +164,6 @@ class Form extends React.Component {
     const { type, name, options, label, initialValue } = field;
     const {
       [name]: value,
-      errors: { [name]: error },
     } = this.state;
     let input;
 
@@ -179,6 +178,7 @@ class Form extends React.Component {
           onSubmitEditing={this.onSubmitEditingHandlers[field.name]}
           autoCorrect={false}
           onChangeText={this.changeValueHandlers[name]}
+          initialValue={initialValue}
           value={value}
           label={label}
           keyboardType={keyboardType}
@@ -193,14 +193,14 @@ class Form extends React.Component {
     }
     else if (type === 'Color') {
       input = (
-        <ColorBox onChange={this.changeValueHandlers[name]} {...options} />
+        <ColorBox onChange={this.changeValueHandlers[name]} value={initialValue} {...options} />
       )
     }
     else if (type === 'Star') {
       input = (
         <View style={{marginVertical: 20}}>
           <Stars
-            default={Number(value)}
+            default={Number(initialValue)}
             spacing={12}
             count={5}
             starSize={18}
