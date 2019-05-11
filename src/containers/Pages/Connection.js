@@ -3,18 +3,32 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import I18n from '../../utils/i18n';
 import BeerInput from '../BeerInput';
 import Button from '../../components/Button';
 import { signin, signup } from '../../utils/api';
+import Form from '../Form';
 
 class ConnectionPage extends Component {
-  state = {
-    email: "",
-    password: "",
-    isConnecting: false,
-    isSubscribing: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isConnecting: false,
+      isSubscribing: false,
+    };
+
+    this.fields = [
+      {
+        label: 'Email',
+        name: 'email',
+        type: 'Email',
+      },
+      {
+        label: 'Password',
+        name: 'password',
+        type: 'Password',
+      }
+    ];
+  }
 
   onChangeValue = (value, name) => {
     this.setState({
@@ -34,8 +48,8 @@ class ConnectionPage extends Component {
     });
   }
 
-  submitConnect = () => {
-    const { email, password } = this.state;
+  submitConnect = (fields) => {
+    const { email, password } = fields;
     const { connect } = this.props;
     signin(email, password).then((value) => {
       connect(value);
@@ -45,8 +59,8 @@ class ConnectionPage extends Component {
     });
   }
 
-  submitSubscribe = () => {
-    const { email, password } = this.state;
+  submitSubscribe = (fields) => {
+    const { email, password } = fields;
     signup(email, password).then(() => {
       this.setState({
         isSubscribing: false,
@@ -59,51 +73,30 @@ class ConnectionPage extends Component {
   render() {
     const { isConnecting, isSubscribing } = this.state;
     const { user } = this.props;
-    return (
-      <View>
-        {!isConnecting && !isSubscribing && !user.email && (
-          <View>
-            <Button
-              onPress={this.handleConnect}
-              text={"Se connecter"} />
-            <Button
-              onPress={this.handleSubscribe}
-              text={"S'inscrire"} />
-          </View>
-        )}
-        {(isSubscribing || isConnecting) && (
-          <View>
-            <BeerInput
-              value={this.state.email}
-              onChangeText={this.onChangeValue}
-              label={"Email"}
-              name="email"
-              autoComplete="email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            <BeerInput
-              value={this.state.password}
-              onChangeText={this.onChangeValue}
-              label={"Password"}
-              autoComplete="password"
-              autoCapitalize="none"
-              secureTextEntry
-              name="password" />
-            <Button
-              onPress={isSubscribing ? this.submitSubscribe : this.submitConnect}
-              text={isSubscribing ? "Inscription" : "Connexion"}
-            />
-          </View>
-        )}
-        {user.email && (
-        <View style={{ marginHorizontal: 20 }}>
-          <Text style={{ fontSize: 40 }}>Bienvenue!</Text>
-          <Text style={{ fontSize: 30 }}>{user.email}</Text>
+    
+    if (!isConnecting && !isSubscribing && !user.email) {
+      return (
+        <View>
+          <Button
+            onPress={this.handleConnect}
+            text={"Se connecter"} />
+          <Button
+            onPress={this.handleSubscribe}
+            text={"S'inscrire"} />
         </View>
-        )}
+      );
+    } else if (isSubscribing || isConnecting) {
+      return (
+        <Form fields={this.fields} onSubmit={isSubscribing ? this.submitSubscribe : this.submitConnect} />
+      );
+    }
+    return (
+      <View style={{ marginHorizontal: 20 }}>
+        <Text style={{ fontSize: 40 }}>Welcome!</Text>
+        <Text style={{ fontSize: 30 }}>{user.email}</Text>
+        <Text>For now, there's nothing to see here, but stay tuned folks ;)</Text>
       </View>
-    )
+    );
   }
 }
 

@@ -8,11 +8,21 @@ import Button from '../../components/Button';
 import ColorBox from '../../components/ColorBox';
 import container from '../../StyleSheet/container';
 
-const focusableTypes = ['Text', 'Number'];
+const focusableTypes = ['Text', 'Number', 'Email', 'Password'];
 
 const validateNumber = number => {
   return /^[0-9\.]*$/.test(number) || number === '';
 }
+
+const emailOptions = {
+  autoComplete: 'email',
+  autoCapitalize: 'none',
+};
+const passwordOptions = {
+  autoComplete: 'password',
+  autoCapitalize: 'none',
+  secureTextEntry: true,
+};
 
 class Form extends React.Component {
   constructor(props) {
@@ -167,8 +177,23 @@ class Form extends React.Component {
     } = this.state;
     let input;
 
-    if (['Text', 'Number'].includes(type)) {
-      const keyboardType = type === 'Number' ? 'numeric' : 'default';
+    if (['Text', 'Number', 'Email', 'Password'].includes(type)) {
+      let keyboardType;
+      let otherOptions = {};
+
+      if (type === 'Number') {
+        keyboardType = 'numeric';
+      } else if (type === 'Email') {
+        keyboardType = 'email-address';
+      } else {
+        keyboardType = 'default';
+      }
+      if (type === 'Email') {
+        otherOptions = emailOptions;
+      } else if (type === 'Password') {
+        otherOptions = passwordOptions;
+      }
+
       input = (
         <BeerInput
           inputRef={this.focusableInputRefs[field.name]}
@@ -182,6 +207,7 @@ class Form extends React.Component {
           value={value}
           label={label}
           keyboardType={keyboardType}
+          {...otherOptions}
           {...options}
         />
       );
