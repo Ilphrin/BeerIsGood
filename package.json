@@ -1,6 +1,6 @@
 {
-  "name": "BeerIsGood",
-  "version": "0.5.0",
+  "name": "beerisgood",
+  "version": "0.5.1",
   "dataVersion": "4",
   "private": true,
   "devDependencies": {
