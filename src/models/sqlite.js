@@ -111,6 +111,7 @@ function runVersionnedRequests(tx, version) {
 
 function init() {
   request(db, (tx) => {
+    runBasicDatabaseRequests(tx);
     tx.executeSql(commonReq.getVersion, [], (transaction, result) => {
       const res = result.rows._array;
       if (res.length === 0 || res[0] === null) {
@@ -130,7 +131,6 @@ function init() {
       }
     }, () => {
       // First time the app launches
-      runBasicDatabaseRequests(tx);
       tx.executeSql(commonReq.addFirstVersion, [0], defaultSuccessCallback, defaultErrCallback);
       runVersionnedRequests(tx, -1);
     });
