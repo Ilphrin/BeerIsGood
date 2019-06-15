@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, PermissionsAndroid, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 const { Permissions, FileSystem } = Expo;
 import PropTypes from 'prop-types';
 import BCamera from '../components/Camera.js';

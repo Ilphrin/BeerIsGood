@@ -5,7 +5,6 @@ const { FileSystem } = Expo;
 
 import AutoComplete from '../AutoComplete';
 import sql from '../../models/sqlite';
-import primaryButton from '../../StyleSheet/buttons';
 import container from '../../StyleSheet/container';
 import { strings } from '../../utils/i18n.js';
 import Form from '../Form';
@@ -166,16 +165,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginVertical: 10,
   },
-  finishButton: primaryButton,
   camera: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-  },
-  picButton: {
-    marginBottom: 20,
-    marginTop: 20,
-    marginRight: 15,
-    marginLeft: 15,
   },
   multipleColumn: {
     display: 'flex',

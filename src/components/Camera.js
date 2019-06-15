@@ -63,7 +63,7 @@ const BCamera = ({
       <Button
         onPress={takePhoto}
         text={strings('Create.takePhoto')}
-        style={{
+        contentStyle={{
           position: 'absolute',
           flexDirection: 'row',
           alignContent: 'stretch',

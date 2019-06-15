@@ -121,7 +121,7 @@ class BeerDetail extends React.Component {
               });
             }}
             text={strings('Detail.removeBeer')}
-            negative
+            style="negative"
           />
         </ScrollView>
       </View>

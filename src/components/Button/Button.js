@@ -1,43 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import { primaryButton, negativeButton } from '../../StyleSheet/buttons';
+import kinds from '../../StyleSheet/buttons';
 
 const Button = ({
-  onPress, style, negative, text,
-}) => {
-  const button = negative ? negativeButton : primaryButton;
-  const allStyle = StyleSheet.flatten([button, style]);
-  return (
-    <TouchableOpacity
-      style={allStyle}
-      onPress={onPress}
+  onPress, style, text, contentStyle,
+}) => (
+  <TouchableOpacity
+    style={[kinds[style], kinds.button, contentStyle]}
+    onPress={onPress}
+  >
+    <Text style={{
+      color: '#fff',
+      fontWeight: 'bold',
+      fontSize: 18,
+    }}
     >
-      <Text style={{
-        color: '#fff',
-        fontWeight: 'bold',
-        fontSize: 18,
-      }}
-      >
-        {text}
-      </Text>
-    </TouchableOpacity>
-  );
-};
+      {text}
+    </Text>
+  </TouchableOpacity>
+);
 
 Button.propTypes = {
   onPress: PropTypes.func.isRequired,
-  style: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.number,
-  ]),
   text: PropTypes.string.isRequired,
-  negative: PropTypes.bool,
+  style: PropTypes.string,
+  contentStyle: PropTypes.object,
 };
 
 Button.defaultProps = {
-  style: StyleSheet.create({}),
-  negative: false,
+  style: 'primary',
+  contentStyle: {},
 };
 
 export default Button;
