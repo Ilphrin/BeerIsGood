@@ -76,3 +76,4 @@ typings/
 
 .tern-port
 .tern-project
+dest/
